@@ -20,7 +20,7 @@ Links úteis:
 ----------
 ####Instalação manual
 
-- [Baixe aqui a última versão][4] (Link do zip do GitHub), descompacte o arquivo e copie a pasta app para a pasta principal da sua loja Magento.
+- [Baixe aqui a última versão][4], descompacte o arquivo e copie a pasta app para a pasta principal da sua loja Magento.
 - Acesse a área administrativa de sua loja e limpe o cache em: Sistema > Gerenciamento de Cache.
 
 ![Mensagem de atenção para backup da loja](http://freterapido.com/imgs/magento_doc/attention_2.png "#FicaDica ;&#41;")
@@ -89,4 +89,4 @@ Links úteis:
   [1]: https://www.magentocommerce.com/magento-connect/catalogsearch/result/?q=frete+r%C3%A1pido&pl=0 "Magento Connect"
   [2]: https://freterapido.com/painel/?origin=github_magento "Painel do Frete Rápido"
   [3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
-  [4]: https://github.com/freterapido/
+  [4]: https://github.com/freterapido/freterapido_magento/archive/master.zip
