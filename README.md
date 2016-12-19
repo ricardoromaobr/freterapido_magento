@@ -46,7 +46,9 @@ Links úteis:
 > **Obs:** Nem todas as categorias da sua loja podem coincidir com a relação de categorias do Frete Rápido, mas é possível relacioná-las de forma ampla.
 > 
 > **Exemplo 1**: Moda feminina -> Vestuário
+
 > **Exemplo 2**: CDs -> CD / DVD / Blu-Ray
+
 > **Exemplo 3**: Violões -> Instrumento Musical
 
 - Para calcular o frete precisamos saber as medidas das embalagens de cada produto. Você precisa informá-las em: Catalog > Manage Products > Frete Rápido.
@@ -59,13 +61,15 @@ Links úteis:
 
 - Agora, configure a nova forma de entrega: System > Settings > Shipping Methods > Frete Rápido (conforme imagem abaixo).
 
-![Configurando o módulo do Frete Rápido](http://freterapido.com/imgs/magento_doc/extension_settings.PNG "Configurações do módulo")
+![Configurando o módulo do Frete Rápido](http://freterapido.com/imgs/magento_doc/extension_settings.PNG?v=1 "Configurações do módulo")
 
 **Habilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
 
 **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido.
 
 **Inscrição Estadual:** Inscrição estadual da sua empresa, caso seja isento, informar “ISENTO”.
+
+**Formato de Peso:** Define o formato de peso utilizado pela loja em Quilos ou Gramas.
 
 **Correios - Valor Declarado:** Habilita ou desabilita o serviço de “Valor Declarado” com os Correios, definindo se os valores dos produtos serão declarados.
 
