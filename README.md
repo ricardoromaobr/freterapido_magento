@@ -3,6 +3,7 @@
 
 ###**Módulo para plataforma Magento**
 Versão do módulo: 1.0
+
 Compatibilidade com Magento: 1.9.x
 
 Links úteis:
@@ -23,7 +24,7 @@ Links úteis:
 - [Baixe aqui a última versão][4], descompacte o arquivo e copie a pasta app para a pasta principal da sua loja Magento.
 - Acesse a área administrativa de sua loja e limpe o cache em: Sistema > Gerenciamento de Cache.
 
-![Mensagem de atenção para backup da loja](http://freterapido.com/imgs/magento_doc/attention_2.png "#FicaDica ;&#41;")
+![Mensagem de atenção para backup da loja](http://freterapido.com/imgs/magento_doc/attention_2.png "#FicaDica ;)")
 
 ----------
 
