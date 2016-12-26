@@ -98,10 +98,10 @@ Links úteis:
 5. Crie um novo Pull Request
 
 ### Licença
-[MIT][5] © Frete Rápido
+[MIT][5]
 
   [1]: https://www.magentocommerce.com/magento-connect/catalogsearch/result/?q=frete+r%C3%A1pido&pl=0 "Magento Connect"
   [2]: https://freterapido.com/painel/?origin=github_magento "Painel do Frete Rápido"
   [3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
   [4]: https://github.com/freterapido/freterapido_magento/archive/master.zip
-  [5]: https://opensource.org/licenses/mit-license.php
+  [5]: https://github.com/freterapido/freterapido_magento/blob/master/LICENSE
