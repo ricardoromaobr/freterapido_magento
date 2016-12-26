@@ -1,7 +1,7 @@
 ![Frete Rápido - Sistema Inteligente de Gestão Logística](https://freterapido.com/imgs/frete_rapido.png)
 ===
 
-###**Módulo para plataforma Magento**
+### Módulo para plataforma Magento
 Versão do módulo: 1.0
 
 Compatibilidade com Magento: 1.9.x
@@ -14,7 +14,7 @@ Links úteis:
 
 ----------
 
-###**Instalação**
+### Instalação
 
 >**<i class="icon-attention"></i> ATENÇÃO!** Recomendamos que seja feito backup da sua loja antes de realizar qualquer instalação. A instalação desse módulo é de inteira responsabilidade do lojista.
 
@@ -28,7 +28,7 @@ Links úteis:
 
 ----------
 
-###<i class="icon-cog"></i>Configurações
+### Configurações
 
 É necessário realizar algumas configurações na sua loja para obter total usabilidade do módulo **Frete Rápido**.
 
@@ -57,7 +57,7 @@ Links úteis:
 
 > **Obs:** As medidas devem considerar apenas as dimensões da embalagem pronta para envio/postagem.
 
-####<i class="icon-cog"></i>Configurações do módulo:
+#### Configurações do módulo:
 
 - Agora, configure a nova forma de entrega: System > Settings > Shipping Methods > Frete Rápido (conforme imagem abaixo).
 
@@ -89,9 +89,19 @@ Links úteis:
 
 >**Obs.:** Para obter cotações dos Correios é necessário configurar o seu contrato com os Correios no [Painel administrativo do Frete Rápido][2] > Empresa > Integração. 
 
+### Contribua
 
+1. Faça um fork
+2. Crie seu branch para a funcionalidade: ` $ git checkout -b feature/nova-funcionalidade`
+3. Faça o commit suas modificações: ` $ git commit -am "adiciona nova funcionalidade"`
+4. Faça o push para a branch: ` $ git push origin feature/nova-funcionalidade`
+5. Crie um novo Pull Request
+
+### Licença
+[MIT][5]
 
   [1]: https://www.magentocommerce.com/magento-connect/catalogsearch/result/?q=frete+r%C3%A1pido&pl=0 "Magento Connect"
   [2]: https://freterapido.com/painel/?origin=github_magento "Painel do Frete Rápido"
   [3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
   [4]: https://github.com/freterapido/freterapido_magento/archive/master.zip
+  [5]: https://github.com/freterapido/freterapido_magento/blob/master/LICENSE
