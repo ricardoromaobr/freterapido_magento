@@ -21,7 +21,7 @@ Links úteis:
 ----------
 ####Instalação manual
 
-- [Baixe aqui a última versão][4], descompacte o arquivo e copie a pasta app para a pasta principal da sua loja Magento.
+- [Baixe aqui a última versão][4], descompacte os conteúdo do arquivo zip dentro da pasta "app" da sua loja Magento.
 - Acesse a área administrativa de sua loja e limpe o cache em: Sistema > Gerenciamento de Cache.
 
 ![Mensagem de atenção para backup da loja](http://freterapido.com/imgs/magento_doc/attention_2.png "#FicaDica ;)")
