@@ -8,7 +8,7 @@ Compatibilidade com Magento: 1.9.x
 
 Links úteis:
 
-- [Magendo Connect][1]
+- [Magento Connect][1]
 - [Painel administrativo][2]
 - [suporte@freterapido.com][3]
 
