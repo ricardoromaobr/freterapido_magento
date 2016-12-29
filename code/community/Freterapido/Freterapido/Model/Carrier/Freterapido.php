@@ -247,7 +247,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         $response = $client->request('POST');
 
         if ($response->getStatus() != 200) {
-            $this->_throwError('apierror', 'Erro ao tentar se comunicar com a API - Code: ' . $response->getStatus() . '. Error: ' . $response->getMessage());
+            $this->_throwError('apierror', 'Erro ao tentar se comunicar com a API - Code: ' . $response->getStatus() .
+                '. Error: ' . $response->getMessage() . ' ' . $response->getBody());
             return $this->_result;
         }
 
@@ -316,15 +317,14 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
      */
     protected function _getVolumes(Mage_Shipping_Model_Rate_Request $request)
     {
-        $volumes = array();
-
         foreach ($request->getAllItems() as $item) {
 
             $sku = $item->getProduct()->getSku();
 
-            // O mesmo produto tem item pai e item filho. No item pai não existe informações sobre as medidas.
-            // Já no item filho não possui informações como preço e quantidade no carrinho
-            // Verifica se é item pai ou filho para pegar as informações necessárias de cada tipo e montar o volume
+            // O mesmo produto pode ter item pai e item filho. Neste caso, no item pai não existe informações sobre as medidas e
+            // no item filho não possui informações como preço e quantidade no carrinho.
+            // Assim, Verifica se é item pai ou filho para pegar as informações necessárias de cada tipo e montar o volume.
+            // No entanto se o produto não possuir item filho, todas as informações são extraídas do item pai.
             if (!$item->getParentItemId()) {
 
                 // Recupera os ids das categorias relacionadas ao produto
@@ -352,35 +352,50 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
                 $weight = (float)$item->getWeight() * $quantity;
                 $value = (float)$item->getBasePrice() * $quantity;
 
-                $volumes[$sku]['tipo'] = (int)$type;
-                $volumes[$sku]['quantidade'] = (int)$quantity;
-                $volumes[$sku]['peso'] = $this->_weightVerify($weight);
-                $volumes[$sku]['valor'] = $value;
+                $this->_volumes[$sku]['tipo'] = (int)$type;
+                $this->_volumes[$sku]['quantidade'] = (int)$quantity;
+                $this->_volumes[$sku]['peso'] = $this->_weightVerify($weight);
+                $this->_volumes[$sku]['valor'] = $value;
+
+                // Verifica se não possui item filho
+                if (!$item->hasChild()) {
+                    $this->_getFrFields($item, $sku);
+                }
 
             } else {
-                $product_child = $item->getProduct();
-
-                $height = !empty($product_child->getData('fr_volume_altura')) ?
-                    $product_child->getData('fr_volume_altura') : $this->getConfigData('altura_padrao');
-
-                $width = !empty($product_child->getData('fr_volume_largura')) ?
-                    $product_child->getData('fr_volume_largura') : $this->getConfigData('largura_padrao');
-
-                $lenght = !empty($product_child->getData('fr_volume_comprimento')) ?
-                    $product_child->getData('fr_volume_comprimento') : $this->getConfigData('comprimento_padrao');
-
-                if ($product_child->getData('fr_volume_prazo_fabricacao') > $this->_manufacturing_time)
-                    $this->_manufacturing_time = $product_child->getData('fr_volume_prazo_fabricacao');
-
-                $volumes[$sku]['sku'] = $sku; // Converte para metros
-                $volumes[$sku]['altura'] = (float)$height / 100; // Converte para metros
-                $volumes[$sku]['largura'] = (float)$width / 100; // Converte para metros
-                $volumes[$sku]['comprimento'] = (float)$lenght / 100; // Converte para metros
+                $this->_getFrFields($item, $sku);
             }
         }
 
         // Define o array sem os Sku como chave
-        $this->_volumes = array_values($volumes);
+        $this->_volumes = array_values($this->_volumes);
+    }
+
+    /**
+     * Recupera os campos personalizados do Frete Rápido
+     *
+     * @param $item
+     */
+    protected function _getFrFields($item, $sku)
+    {
+        $product_child = $item->getProduct();
+
+        $height = !empty($product_child->getData('fr_volume_altura')) ?
+            $product_child->getData('fr_volume_altura') : $this->getConfigData('altura_padrao');
+
+        $width = !empty($product_child->getData('fr_volume_largura')) ?
+            $product_child->getData('fr_volume_largura') : $this->getConfigData('largura_padrao');
+
+        $lenght = !empty($product_child->getData('fr_volume_comprimento')) ?
+            $product_child->getData('fr_volume_comprimento') : $this->getConfigData('comprimento_padrao');
+
+        if ($product_child->getData('fr_volume_prazo_fabricacao') > $this->_manufacturing_time)
+            $this->_manufacturing_time = $product_child->getData('fr_volume_prazo_fabricacao');
+
+        $this->_volumes[$sku]['sku'] = $sku; // Converte para metros
+        $this->_volumes[$sku]['altura'] = (float)$height / 100; // Converte para metros
+        $this->_volumes[$sku]['largura'] = (float)$width / 100; // Converte para metros
+        $this->_volumes[$sku]['comprimento'] = (float)$lenght / 100; // Converte para metros
     }
 
     /**
