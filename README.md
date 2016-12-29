@@ -87,11 +87,14 @@ Links úteis:
 
 **Token:** Token de integração da sua empresa disponível no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
 
->**Obs.:** Para obter cotações dos Correios é necessário configurar o seu contrato com os Correios no [Painel administrativo do Frete Rápido][2] > Empresa > Integração. 
+####**Observações gerais:** 
+1. Para obter cotações dos Correios é necessário configurar o seu contrato com os Correios no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
+2. Esse módulo atende cotações apenas para destinatários Pessoa Física
 
-### Contribua
+###Contribuições
+Encontrou algum bug ou tem sugestões de melhorias no código? Sencacional! Não se acanhe, nos envie um pull request com a sua alteração e ajude este projeto a ficar ainda melhor.
 
-1. Faça um fork
+1. Faça um "Fork"
 2. Crie seu branch para a funcionalidade: ` $ git checkout -b feature/nova-funcionalidade`
 3. Faça o commit suas modificações: ` $ git commit -am "adiciona nova funcionalidade"`
 4. Faça o push para a branch: ` $ git push origin feature/nova-funcionalidade`
@@ -100,8 +103,9 @@ Links úteis:
 ### Licença
 [MIT][5]
 
-  [1]: https://www.magentocommerce.com/magento-connect/catalogsearch/result/?q=frete+r%C3%A1pido&pl=0 "Magento Connect"
-  [2]: https://freterapido.com/painel/?origin=github_magento "Painel do Frete Rápido"
-  [3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
-  [4]: https://github.com/freterapido/freterapido_magento/archive/master.zip
-  [5]: https://github.com/freterapido/freterapido_magento/blob/master/LICENSE
+
+[1]: https://www.magentocommerce.com/magento-connect/catalogsearch/result/?q=frete+r%C3%A1pido&pl=0 "Magento Connect"
+[2]: https://freterapido.com/painel/?origin=github_magento "Painel do Frete Rápido"
+[3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
+[4]: https://github.com/freterapido/
+[5]: https://github.com/freterapido/freterapido_magento/blob/master/LICENSE
