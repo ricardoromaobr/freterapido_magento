@@ -2,7 +2,7 @@
 ===
 
 ### Módulo para plataforma Magento
-Versão do módulo: 1.0
+Versão do módulo: 1.0.1
 
 Compatibilidade com Magento: 1.9.x
 
@@ -89,7 +89,7 @@ Links úteis:
 
 ###Observações gerais:
 1. Para obter cotações dos Correios é necessário configurar o seu contrato com os Correios no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
-2. Esse módulo atende cotações apenas para destinatários Pessoa Física
+2. Esse módulo atende cotações apenas para destinatários Pessoa Física.
 
 ###Contribuições
 Encontrou algum bug ou tem sugestões de melhorias no código? Sencacional! Não se acanhe, nos envie um pull request com a sua alteração e ajude este projeto a ficar ainda melhor.
