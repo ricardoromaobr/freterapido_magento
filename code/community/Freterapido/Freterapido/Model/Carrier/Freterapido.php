@@ -68,11 +68,14 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
                 return false;
             }
 
-            // Recupera o valor dos produtos que estão no carrinho.
             $this->_result = Mage::getModel('shipping/rate_result');
 
-            $this->_handling_fee = $this->getConfigData('handling_fee');
-            $this->_leadtime = $this->getConfigData('leadtime');
+            $this->_handling_fee = !empty($this->getConfigData('handling_fee')) ?
+                $this->getConfigData('handling_fee') : 0;
+
+            $this->_leadtime = !empty($this->getConfigData('leadtime')) ?
+                $this->getConfigData('leadtime') : 0;
+
             $this->_limit = $this->getConfigData('limit');
             $this->_filter = $this->getConfigData('filter');
             $this->_token = $this->getConfigData('token');
@@ -152,7 +155,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     protected function _getSender()
     {
         $this->_sender = array();
-        $this->_sender['cnpj'] = $this->getConfigData('shipper_cnpj');
+        $this->_sender['cnpj'] = preg_replace("/\D/", '', $this->getConfigData('shipper_cnpj'));
         $this->_sender['inscricao_estadual'] = $this->getConfigData('shipper_ie');
         // Pega o CEP da configuração da loja
         $this->_sender['endereco']['cep'] = $this->_formatZipCode(Mage::getStoreConfig('shipping/origin/postcode', $this->getStore()));
