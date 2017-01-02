@@ -2,7 +2,7 @@
 ===
 
 ### Módulo para plataforma Magento
-Versão do módulo: 1.0.1
+Versão do módulo: 1.0.2
 
 Compatibilidade com Magento: 1.9.x
 
@@ -16,7 +16,7 @@ Links úteis:
 
 ### Instalação
 
->**<i class="icon-attention"></i> ATENÇÃO!** Recomendamos que seja feito backup da sua loja antes de realizar qualquer instalação. A instalação desse módulo é de inteira responsabilidade do lojista.
+>**ATENÇÃO!** Recomendamos que seja feito backup da sua loja antes de realizar qualquer instalação. A instalação desse módulo é de inteira responsabilidade do lojista.
 
 ----------
 ####Instalação manual
