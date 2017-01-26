@@ -65,29 +65,40 @@
                 </item>
             </quote>
         </sales>
+        <!--<events>-->
+            <!--<sales_order_shipment_save_before>-->
+                <!--<observers>-->
+                    <!--<freterapido>-->
+                        <!--<type>singleton</type>-->
+                        <!--<class>Freterapido_Freterapido_Model_Observer</class>-->
+                        <!--<method>quote</method>-->
+                    <!--</freterapido>-->
+                <!--</observers>-->
+            <!--</sales_order_shipment_save_before>-->
+        <!--</events>-->
     </global>
-        <default>
-            <carriers>
-                <freterapido>
-                    <active>1</active>
-                    <model>freterapido/carrier_freterapido</model>
-                    <title>
-                        Opções de entrega - Frete Rápido
-                    </title>
-                    <!--  MESSAGES  --> 
-                    <apierror>Não foi possível se comunicar com o serviço do Frete Rápido</apierror>
-                    <msgprazo>%s - Entrega em até %d %s</msgprazo>
+    <default>
+        <carriers>
+            <freterapido>
+                <active>1</active>
+                <model>freterapido/carrier_freterapido</model>
+                <title>Opções de entrega</title>
+                <!--  MESSAGES  -->
+                <apierror>Não foi possível se comunicar com o serviço do Frete Rápido</apierror>
+                <msgprazo>%s - Entrega em até %d %s</msgprazo>
 
-                    <!-- VOLUME -->
-                    <tipo_padrao>999</tipo_padrao>
-                    <altura_padrao>2</altura_padrao>
-                    <largura_padrao>11</largura_padrao>
-                    <comprimento_padrao>16</comprimento_padrao>
+                <!-- VOLUME -->
+                <tipo_padrao>999</tipo_padrao>
+                <altura_padrao>50</altura_padrao>
+                <largura_padrao>50</largura_padrao>
+                <comprimento_padrao>50</comprimento_padrao>
 
-                    <!-- CONFIGURATION -->
-                    <weight_type>kg</weight_type>
-                    <api_simulation_url>https://freterapido.com/api/external/embarcador/v1/quote-simulator</api_simulation_url>
-                </freterapido>
-            </carriers>
-        </default>
+                <!-- CONFIGURATION -->
+                <weight_type>kg</weight_type>
+                <platform_code>95e893cfc</platform_code>
+                <api_simulation_url>https://freterapido.com/api/external/embarcador/v1/quote-simulator</api_simulation_url>
+                <api_quote_url>https://freterapido.com/api/external/quote/ecommerce/%s/offer/%s</api_quote_url>
+            </freterapido>
+        </carriers>
+    </default>
 </config>
