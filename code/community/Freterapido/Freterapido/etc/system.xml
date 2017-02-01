@@ -35,7 +35,7 @@
                         <div style="padding-top: 20px;">
                             Configure abaixo a sua conta com os dados da loja para obter as cotações de frete através do Frete Rápido.
                             </br>
-                            O token e as configurações dos Correios estão disponíveis no seu <a href="https://freterapido.com/painel/" target="_blank"<name />Painel administrativo</a>.
+                            O token está disponível no seu <a href="https://freterapido.com/painel/" target="_blank"<name />Painel administrativo</a>.
                             </br>
                             Em caso de dúvidas, reporte de bugs ou sugestão de melhorias, acesse a <a href="https://github.com/freterapido/freterapido_magento" target="_blank"<name />documentação deste módulo no Github</a>.
                             </br>
@@ -64,15 +64,6 @@
                             <show_in_store>1</show_in_store>
                             <comment>CNPJ da loja</comment>
                         </shipper_cnpj>
-                        <shipper_ie translate="label">
-                            <label>Inscrição Estadual</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>3</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment>Inscrição Estadual da loja</comment>
-                        </shipper_ie>
                         <weight_type translate="label">
                             <label>Formato do Peso</label>
                             <frontend_type>select</frontend_type>
@@ -86,33 +77,33 @@
                                 exemplo, 1 Kg no formato "Kilo" será "1.000", já em "Gramas" será "1000.000".
                             </tooltip>
                         </weight_type>
-                        <correios_valor_declarado translate="label">
-                            <label>Correios - Valor Declarado</label>
-                            <frontend_type>select</frontend_type>
-                            <sort_order>9</sort_order>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        <generic_height translate="label">
+                            <label>Altura padrão (cm)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </correios_valor_declarado>
-                        <correios_mao_propria translate="label">
-                            <label>Correios - Mão Própria</label>
-                            <frontend_type>select</frontend_type>
-                            <sort_order>10</sort_order>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Altura padrão da embalagem (Para cálculo do frete)</comment>
+                        </generic_height>
+                        <generic_width translate="label">
+                            <label>Largura padrão (cm)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </correios_mao_propria>
-                        <correios_aviso_recebimento translate="label">
-                            <label>Correios - Aviso de Recebimento</label>
-                            <frontend_type>select</frontend_type>
-                            <sort_order>11</sort_order>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Largura padrão da embalagem (Para cálculo do frete)</comment>
+                        </generic_width>
+                        <generic_length translate="label">
+                            <label>Comprimento padrão (cm)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </correios_aviso_recebimento>
+                            <comment>Comprimento padrão da embalagem (Para cálculo do frete)</comment>
+                        </generic_length>
                         <filter translate="label">
                             <label>Resultados</label>
                             <frontend_type>select</frontend_type>
@@ -154,7 +145,7 @@
                         <token translate="label">
                             <label>Token</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>16</sort_order>
+                            <sort_order>17</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>

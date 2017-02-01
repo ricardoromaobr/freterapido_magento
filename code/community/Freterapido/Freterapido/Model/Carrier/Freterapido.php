@@ -20,40 +20,33 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
     protected $_sender = array(
         'cnpj' => null,
-        'inscricao_estadual' => null,
         'endereco' => array(
             'cep' => null
         )
     );
 
     protected $_receiver = array(
-        'tipo_pessoa' => 1,
         'endereco' => array(
             'cep' => null
         )
     );
 
-    protected $_billing_type = 1;
     protected $_freight_type = 1;
-    protected $_ecommerce = true;
-
-    protected $_correios = array(
-        'valor_declarado' => false,
-        'mao_propria' => false,
-        'aviso_recebimento' => false
-    );
 
     protected $_carriers = array();
 
-    protected $_handling_fee = 0;
+    protected $_platform_code = null;
+
+    protected $_handling_fee = 0; // Custo adicional
+
     protected $_leadtime = 0; // Adiciona ao prazo de entrega a quantidade de dias para postagem
+    protected $_manufacturing_time = 0; // Adiciona o tempo de fabricação do produto selecionado
+
     protected $_limit = 0;
+
     protected $_filter = 0;
+
     protected $_token = null;
-
-    protected $_post_cost = 0;
-
-    protected $_manufacturing_time = 0; // Maior tempo de fabricação entre os produtos selecionados
     protected $_volumes = array();
 
     protected $_shipping_methods = array();
@@ -78,10 +71,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
             $this->_limit = $this->getConfigData('limit');
             $this->_filter = $this->getConfigData('filter');
+            $this->_platform_code = $this->getConfigData('platform_code');
             $this->_token = $this->getConfigData('token');
-
-            // Obtém a configuração dos coreios
-            $this->_getCorreiosConfig();
 
             // Obtém os volumes
             $this->_getVolumes($request);
@@ -156,18 +147,16 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     {
         $this->_sender = array();
         $this->_sender['cnpj'] = preg_replace("/\D/", '', $this->getConfigData('shipper_cnpj'));
-        $this->_sender['inscricao_estadual'] = $this->getConfigData('shipper_ie');
-        // Pega o CEP da configuração da loja
-        $this->_sender['endereco']['cep'] = $this->_formatZipCode(Mage::getStoreConfig('shipping/origin/postcode', $this->getStore()));
 
         return true;
     }
+
+    //TODO: criar método para buscar o id do expedior caso o cep do expedidor esteja preenchido
 
     protected function _getReceiver(Mage_Shipping_Model_Rate_Request $request)
     {
         $this->_receiver = array();
         // Recupera o CEP digitado pelo usuário
-        $this->_receiver['tipo_pessoa'] = 1;
         $this->_receiver['endereco']['cep'] = $this->_formatZipCode($request->getDestPostcode());
 
         return true;
@@ -194,18 +183,6 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     }
 
     /**
-     * Obtém as configurações dos correios definidas na configuração do módulo
-     */
-    protected function _getCorreiosConfig()
-    {
-        $this->_correios = array();
-
-        $this->_correios['valor_declarado'] = (boolean)$this->getConfigData('correios_valor_declarado');
-        $this->_correios['mao_propria'] = (boolean)$this->getConfigData('correios_mao_propria');
-        $this->_correios['aviso_recebimento'] = (boolean)$this->getConfigData('correios_aviso_recebimento');
-    }
-
-    /**
      * Realiza a cotação na API do Frete Rápido
      */
     protected function _getQuoteApi()
@@ -215,11 +192,11 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             'remetente' => $this->_sender,
             'destinatario' => $this->_receiver,
             'volumes' => $this->_volumes,
-            'correios' => $this->_correios,
-            'tipo_cobranca' => $this->_billing_type,
             'tipo_frete' => $this->_freight_type,
-            'ecommerce' => $this->_ecommerce,
-            'token' => $this->_token
+            'custo_adicional' => $this->_handling_fee,
+            'prazo_adicional' => $this->_leadtime,
+            'token' => $this->_token,
+            'codigo_plataforma' => $this->_platform_code
         );
 
         // Adiciona o filtro caso tenhas sido selecionado
@@ -287,7 +264,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         // Se o nome para o método já existir, é acrescentado um valor para diferenciá-lo
         if (in_array($shipping_method, $this->_shipping_methods))
-            $shipping_method = $shipping_method . '-' . number_format($carrier->preco, 2, '', '');
+            $shipping_method = $shipping_method . '-' . number_format($carrier->preco_frete, 2, '', '');
 
         // Adiciona o nome do método na lista
         $this->_shipping_methods[] = $shipping_method;
@@ -298,17 +275,17 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         $method->setCarrier($this->_code);
         $method->setMethod($shipping_method);
 
-        $deadline = $carrier->prazo_entrega + $this->_leadtime + $this->_manufacturing_time;
+        $deadline = $carrier->prazo_entrega + $this->_manufacturing_time;
         $deadline_msg = $deadline > 1 ? 'dias úteis' : 'dia útil';
 
         $method->setMethodTitle(sprintf($this->getConfigData('msgprazo'),
             $carrier->nome, $deadline, $deadline_msg));
 
-        $shipping_price = $carrier->preco + $this->_handling_fee + $this->_post_cost;
         // Diz ao Magento qual será o valor do frete
-        $method->setPrice($shipping_price);
+        $method->setPrice($carrier->preco_frete);
+
         // Diz qual será o custo do frete para a loja. Esta informação não é exibida
-        $method->setCost($carrier->preco);
+        $method->setCost($carrier->custo_frete);
 
         $this->_result->append($method);
     }
@@ -344,12 +321,12 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
                     }
                 }
 
-                // Ordena para que a categoria com level maior (mais específica) fique na primeira posição
+                // Ordena para que a categoria com nível maior (mais específica) fique na primeira posição
                 krsort($categories);
 
                 // Verifica se a categoria foi encontrada e inserida no array, remove as chaves e extrai o primeiro item do array
                 $type = is_array($categories) && !empty(array_values($categories)[0]) ?
-                    array_values($categories)[0] : $this->getConfigData('tipo_padrao');
+                    array_values($categories)[0] : $this->getConfigData('default_type');
 
                 $quantity = $item->getQty();
                 $weight = (float)$item->getWeight() * $quantity;
@@ -383,22 +360,36 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     {
         $product_child = $item->getProduct();
 
-        $height = !empty($product_child->getData('fr_volume_altura')) ?
-            $product_child->getData('fr_volume_altura') : $this->getConfigData('altura_padrao');
+        // Tenta obter as medidas do produto, se for 0 ou vazio tenta obter as medidas genéricas preenchidas na configuração
+        // caso também não esteja preenchido ou seja = 0, seta a a medida padrão (50cm)
+        if (!empty($product_child->getData('fr_volume_altura'))) {
+            $height = $product_child->getData('fr_volume_altura');
+        } elseif (!empty($this->getConfigData('generic_height'))){
+            $height = $this->getConfigData('generic_height');
+        } else {
+            $height = $this->getConfigData('default_height');
+        }
 
-        $width = !empty($product_child->getData('fr_volume_largura')) ?
-            $product_child->getData('fr_volume_largura') : $this->getConfigData('largura_padrao');
+        if (!empty($product_child->getData('fr_volume_largura'))) {
+            $width = $product_child->getData('fr_volume_largura');
+        } elseif (!empty($this->getConfigData('generic_width'))){
+            $width = $this->getConfigData('generic_width');
+        } else {
+            $width = $this->getConfigData('default_width');
+        }
 
-        $lenght = !empty($product_child->getData('fr_volume_comprimento')) ?
-            $product_child->getData('fr_volume_comprimento') : $this->getConfigData('comprimento_padrao');
-
-        if ($product_child->getData('fr_volume_prazo_fabricacao') > $this->_manufacturing_time)
-            $this->_manufacturing_time = $product_child->getData('fr_volume_prazo_fabricacao');
+        if (!empty($product_child->getData('fr_volume_comprimento'))) {
+            $length = $product_child->getData('fr_volume_comprimento');
+        } elseif (!empty($this->getConfigData('generic_length'))){
+            $length = $this->getConfigData('generic_length');
+        } else {
+            $length = $this->getConfigData('default_length');
+        }
 
         $this->_volumes[$sku]['sku'] = $sku; // Converte para metros
         $this->_volumes[$sku]['altura'] = (float)$height / 100; // Converte para metros
         $this->_volumes[$sku]['largura'] = (float)$width / 100; // Converte para metros
-        $this->_volumes[$sku]['comprimento'] = (float)$lenght / 100; // Converte para metros
+        $this->_volumes[$sku]['comprimento'] = (float)$length / 100; // Converte para metros
     }
 
     /**
