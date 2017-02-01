@@ -88,10 +88,10 @@
                 <msgprazo>%s - Entrega em até %d %s</msgprazo>
 
                 <!-- VOLUME -->
-                <tipo_padrao>999</tipo_padrao>
-                <altura_padrao>50</altura_padrao>
-                <largura_padrao>50</largura_padrao>
-                <comprimento_padrao>50</comprimento_padrao>
+                <default_type>999</default_type>
+                <default_height>50</default_height>
+                <default_width>50</default_width>
+                <default_length>50</default_length>
 
                 <!-- CONFIGURATION -->
                 <weight_type>kg</weight_type>

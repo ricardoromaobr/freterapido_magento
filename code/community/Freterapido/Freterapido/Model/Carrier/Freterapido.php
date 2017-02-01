@@ -326,7 +326,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
                 // Verifica se a categoria foi encontrada e inserida no array, remove as chaves e extrai o primeiro item do array
                 $type = is_array($categories) && !empty(array_values($categories)[0]) ?
-                    array_values($categories)[0] : $this->getConfigData('tipo_padrao');
+                    array_values($categories)[0] : $this->getConfigData('default_type');
 
                 $quantity = $item->getQty();
                 $weight = (float)$item->getWeight() * $quantity;
@@ -366,19 +366,19 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             $product_child->getData('fr_volume_altura') :
             (!empty($this->getConfigData('generic_height'))) ?
                 $this->getConfigData('generic_height') :
-                $this->getConfigData('altura_padrao');
+                $this->getConfigData('default_height');
 
         $width = !empty($product_child->getData('fr_volume_largura')) ?
             $product_child->getData('fr_volume_largura') :
             (!empty($this->getConfigData('generic_width'))) ?
                 $this->getConfigData('generic_width') :
-                $this->getConfigData('largura_padrao');
+                $this->getConfigData('default_width');
 
         $lenght = !empty($product_child->getData('fr_volume_comprimento')) ?
             $product_child->getData('fr_volume_comprimento') :
             (!empty($this->getConfigData('generic_length'))) ?
                 $this->getConfigData('generic_length') :
-                $this->getConfigData('comprimento_padrao');
+                $this->getConfigData('default_length');
 
         $this->_volumes[$sku]['sku'] = $sku; // Converte para metros
         $this->_volumes[$sku]['altura'] = (float)$height / 100; // Converte para metros
