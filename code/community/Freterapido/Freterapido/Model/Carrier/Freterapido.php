@@ -275,7 +275,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         $method->setCarrier($this->_code);
         $method->setMethod($shipping_method);
 
-        $deadline = $carrier->prazo_entrega + $this->_leadtime + $this->_manufacturing_time;
+        $deadline = $carrier->prazo_entrega + $this->_manufacturing_time;
         $deadline_msg = $deadline > 1 ? 'dias úteis' : 'dia útil';
 
         $method->setMethodTitle(sprintf($this->getConfigData('msgprazo'),
@@ -362,28 +362,34 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         // Tenta obter as medidas do produto, se for 0 ou vazio tenta obter as medidas genéricas preenchidas na configuração
         // caso também não esteja preenchido ou seja = 0, seta a a medida padrão (50cm)
-        $height = !empty($product_child->getData('fr_volume_altura')) ?
-            $product_child->getData('fr_volume_altura') :
-            (!empty($this->getConfigData('generic_height'))) ?
-                $this->getConfigData('generic_height') :
-                $this->getConfigData('default_height');
+        if (!empty($product_child->getData('fr_volume_altura'))) {
+            $height = $product_child->getData('fr_volume_altura');
+        } elseif (!empty($this->getConfigData('generic_height'))){
+            $height = $this->getConfigData('generic_height');
+        } else {
+            $height = $this->getConfigData('default_height');
+        }
 
-        $width = !empty($product_child->getData('fr_volume_largura')) ?
-            $product_child->getData('fr_volume_largura') :
-            (!empty($this->getConfigData('generic_width'))) ?
-                $this->getConfigData('generic_width') :
-                $this->getConfigData('default_width');
+        if (!empty($product_child->getData('fr_volume_largura'))) {
+            $width = $product_child->getData('fr_volume_largura');
+        } elseif (!empty($this->getConfigData('generic_width'))){
+            $width = $this->getConfigData('generic_width');
+        } else {
+            $width = $this->getConfigData('default_width');
+        }
 
-        $lenght = !empty($product_child->getData('fr_volume_comprimento')) ?
-            $product_child->getData('fr_volume_comprimento') :
-            (!empty($this->getConfigData('generic_length'))) ?
-                $this->getConfigData('generic_length') :
-                $this->getConfigData('default_length');
+        if (!empty($product_child->getData('fr_volume_comprimento'))) {
+            $length = $product_child->getData('fr_volume_comprimento');
+        } elseif (!empty($this->getConfigData('generic_length'))){
+            $length = $this->getConfigData('generic_length');
+        } else {
+            $length = $this->getConfigData('default_length');
+        }
 
         $this->_volumes[$sku]['sku'] = $sku; // Converte para metros
         $this->_volumes[$sku]['altura'] = (float)$height / 100; // Converte para metros
         $this->_volumes[$sku]['largura'] = (float)$width / 100; // Converte para metros
-        $this->_volumes[$sku]['comprimento'] = (float)$lenght / 100; // Converte para metros
+        $this->_volumes[$sku]['comprimento'] = (float)$length / 100; // Converte para metros
     }
 
     /**
