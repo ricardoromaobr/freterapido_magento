@@ -145,14 +145,6 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
             'destinatario' => $this->_receiver,
         );
 
-        // Adiciona o filtro caso tenhas sido selecionado
-        if ($this->_filter)
-            $request_data['filtro'] = (int)$this->_filter;
-
-        // Adiciona o limite de ofertas disponíveis caso tenhas sido selecionado
-        if ($this->_limit)
-            $request_data['limite'] = (int)$this->_limit;
-
         $config = array(
             'adapter' => 'Zend_Http_Client_Adapter_Curl',
             'curloptions' => array(
