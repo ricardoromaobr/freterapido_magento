@@ -22,7 +22,7 @@ Links úteis:
 ####Instalação manual
 
 - [Baixe aqui a última versão][4], descompacte o conteúdo do arquivo zip dentro da pasta "app" da sua loja Magento.
-- Verifique se o arquivo **local.xml** está habilitado na pasta "app/etc" da sua loja Magento. Caso não, é só renomear o arquivo **local.xml.sample** para **local.xml**.
+- Verifique se o arquivo **local.xml** está habilitado na pasta "app/etc" da sua loja Magento. Caso não esteja, é só renomear o arquivo **local.xml.sample** para **local.xml**.
 - Acesse a área administrativa de sua loja e limpe o cache em: Sistema > Gerenciamento de Cache.
 
 ![Mensagem de atenção para backup da loja](http://freterapido.com/imgs/magento_doc/attention_2.png "#FicaDica ;)")
