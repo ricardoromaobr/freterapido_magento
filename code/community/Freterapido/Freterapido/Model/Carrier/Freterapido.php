@@ -53,7 +53,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
     protected $_volumes = array();
 
-    protected $_shipping_methods = array();
+    protected $_offer_token = null;
 
     // Função chamada pelo Magento para calcular frete
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
@@ -246,6 +246,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         $this->_log('Foram retornadas ' . count($this->_carriers) . ' Transportadoras na consulta');
 
+        // Seta o token da oferta
+        $this->_offer_token = $response->token_oferta;
+
         // Se não retornar nenhuma transportadora na chamada, retorna o resultado vazio
         if (empty($this->_carriers))
             return $this->_result;
@@ -265,18 +268,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
      */
     protected function _appendShippingReturn($carrier)
     {
-        if ($carrier->nome == 'Correios')
-            $carrier->nome = strtoupper($carrier->nome . $carrier->servico);
-
-        // Gera um nome para o método de cada transportadora
-        $shipping_method = preg_replace("/\W/", '', strtolower($carrier->nome));
-
-        // Se o nome para o método já existir, é acrescentado um valor para diferenciá-lo
-        if (in_array($shipping_method, $this->_shipping_methods))
-            $shipping_method = $shipping_method . '-' . number_format($carrier->preco_frete, 2, '', '');
-
-        // Adiciona o nome do método na lista
-        $this->_shipping_methods[] = $shipping_method;
+        // Seta o nome do método
+        $shipping_method = $this->_offer_token . '_' . $carrier->oferta;
 
         /** @var Mage_Shipping_Model_Rate_Result_Method $rate */
         $method = Mage::getModel('shipping/rate_result_method');
