@@ -41,6 +41,8 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $order = $shipment->getOrder();
 
         try {
+            $this->_log('Iniciando contratação...');
+
             $this->_getSender();
 
             $this->_getReceiver($order);
@@ -53,9 +55,12 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
             $this->_doQuote();
 
+            $this->_log('Contratação realizada com sucesso.');
+
+            return $this;
         } catch (Exception $e) {
-            $this->_log($e->getMessage());
-            return false;
+            $this->_logError($e->getMessage());
+            $order->save();
         }
     }
 
@@ -71,7 +76,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
             $this->_sender['cnpj'] = Mage::getStoreConfig('carriers/freterapido/shipper_cnpj');
 
         } catch (Exception $e) {
-            $this->_log('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
+            $this->_logError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
             return false;
         }
     }
@@ -100,7 +105,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
             $this->_receiver['endereco']['rua'] = $order->getShippingAddress()->getData('street');
 
         } catch (Exception $e) {
-            $this->_log('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
+            $this->_logError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
             return false;
         }
     }
@@ -116,10 +121,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $new_zipcode = preg_replace("/\D/", '', trim($zipcode));
 
         if (strlen($new_zipcode) !== 8) {
-            //CEP está errado
-            $this->_log('O CEP digitado é inválido');
-
-            return false;
+           throw new Exception('O CEP digitado é inválido');
         }
 
         return $new_zipcode;
@@ -164,11 +166,8 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $response = $client->request('POST');
 
         if ($response->getStatus() != 200) {
-            $this->_log('Erro ao tentar se comunicar com a API - Code: ' . $response->getStatus() . '. Error: ' . $response->getMessage());
-            return false;
+            throw new Exception('Erro ao tentar se comunicar com a API - Code: ' . $response->getStatus() . '. Error: ' . $response->getMessage());
         }
-
-        return $this;
     }
 
     /**
@@ -177,6 +176,17 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
      * @param string $mensagem
      */
     protected function _log($mensagem)
+    {
+        Mage::log('Frete Rápido: ' . $mensagem);
+    }
+
+
+    /**
+     * Armazena no log a mensagem informada
+     *
+     * @param string $mensagem
+     */
+    protected function _logError($mensagem)
     {
         Mage::log('Frete Rápido: Shipment observer error - ' . $mensagem);
     }
