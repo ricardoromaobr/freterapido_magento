@@ -59,8 +59,8 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
             return $this;
         } catch (Exception $e) {
-            $this->_logError($e->getMessage());
-            $order->save();
+            $this->_logError($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
+            Mage::throwException('Frete Rápido - Shipment observer error: ' . $e->getMessage());
         }
     }
 
