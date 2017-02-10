@@ -268,6 +268,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
      */
     protected function _appendShippingReturn($carrier)
     {
+        if (strtolower($carrier->nome) == 'correios')
+            $carrier->nome = strtoupper($carrier->nome . ' - ' . $carrier->servico);
+
         // Seta o nome do método
         $shipping_method = $this->_offer_token . '_' . $carrier->oferta;
 
