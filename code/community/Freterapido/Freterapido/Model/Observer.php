@@ -34,18 +34,22 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
     protected $_offer = array();
 
+    protected $_success = true;
+
     public function quote($observer)
     {
         $shipment = $observer->getEvent()->getShipment();
 
         $order = $shipment->getOrder();
 
+        $customer = Mage::getModel('customer/customer')->load($shipment->getCustomerId());
+
         try {
             $this->_log('Iniciando contratação...');
 
             $this->_getSender();
 
-            $this->_getReceiver($order);
+            $this->_getReceiver($order, $customer);
 
             $this->_getOffer($order->getShippingMethod());
 
@@ -59,8 +63,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
             return $this;
         } catch (Exception $e) {
-            $this->_logError($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
-            Mage::throwException('Frete Rápido - Shipment observer error: ' . $e->getMessage());
+            $this->_throwError($e->getMessage());
         }
     }
 
@@ -76,8 +79,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
             $this->_sender['cnpj'] = Mage::getStoreConfig('carriers/freterapido/shipper_cnpj');
 
         } catch (Exception $e) {
-            $this->_logError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
-            return false;
+            $this->_throwError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
         }
     }
 
@@ -85,28 +87,27 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return bool
      */
-    protected function _getReceiver($order)
+    protected function _getReceiver($order, $customer)
     {
         try {
-            $cnpj_cpf = preg_replace("/\D/", '', $order->getData('customer_taxvat'));
-
-            $name = $order->getShippingAddress()->getData('firstname') .
+            $name = $customer->getFirstname() .
                 ' ' .
-                $order->getShippingAddress()->getData('lastname');
+                $customer->getMiddlename() .
+                ' ' .
+                $customer->getLastname();
 
             $this->_receiver = array();
-            $this->_receiver['tipo_pessoa'] = 1;
-            $this->_receiver['cnpj_cpf'] = $cnpj_cpf;
+//            $this->_receiver['tipo_pessoa'] = 1;
+            $this->_receiver['cnpj_cpf'] = preg_replace("/\D/", '', $customer->getTaxvat());
             $this->_receiver['nome'] = $name;
             $this->_receiver['email'] = $order->getShippingAddress()->getData('email');
-            $this->_receiver['telefone'] = $order->getShippingAddress()->getData('telephone');
+            $this->_receiver['telefone'] = preg_replace("/\D/", '', $order->getShippingAddress()->getData('telephone'));
 
             $this->_receiver['endereco']['cep'] = $this->_formatZipCode($order->getShippingAddress()->getData('postcode'));
             $this->_receiver['endereco']['rua'] = $order->getShippingAddress()->getData('street');
 
         } catch (Exception $e) {
-            $this->_logError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
-            return false;
+            $this->_throwError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
         }
     }
 
@@ -147,6 +148,8 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
             'destinatario' => $this->_receiver,
         );
 
+        $this->_log($this->_url . ' | ' . json_encode($request_data));
+
         $config = array(
             'adapter' => 'Zend_Http_Client_Adapter_Curl',
             'curloptions' => array(
@@ -155,7 +158,6 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
             ),
         );
 
-        $this->_log($this->_url . ' | ' . json_encode($request_data));
         // Configura o cliente http passando a URL da API e a configuração
         $client = new Zend_Http_Client($this->_url, $config);
 
@@ -186,8 +188,8 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
      *
      * @param string $mensagem
      */
-    protected function _logError($mensagem)
+    protected function _throwError($mensagem)
     {
-        Mage::log('Frete Rápido: Shipment observer error - ' . $mensagem);
+        Mage::throwException('Frete Rápido - Não foi possível realizar a contratação do frete. Motivo: ' . $mensagem);
     }
 }
