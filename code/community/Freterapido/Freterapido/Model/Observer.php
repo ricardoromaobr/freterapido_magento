@@ -34,6 +34,8 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
     protected $_offer = array();
 
+    protected $_track_id = null;
+
     protected $_success = true;
 
     public function quote($observer)
@@ -42,14 +44,22 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
         $order = $shipment->getOrder();
 
-        $customer = Mage::getModel('customer/customer')->load($shipment->getCustomerId());
-
         try {
+            // Verifica se o checkout foi feito com o usuário logado ou não, pois a forma de obter o cnpj/cpf é diferente em cada caso
+            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+                $cnpj_cpf = Mage::getModel('customer/customer')->load($shipment->getCustomerId())->getTaxvat();
+            } else {
+                $cnpj_cpf = $order->getShippingAddress()->getVatId();
+            }
+
+            if (empty($cnpj_cpf))
+                $this->_throwError('Não foi possível obter o CNPJ/CPF do destinatário.');
+
             $this->_log('Iniciando contratação...');
 
             $this->_getSender();
 
-            $this->_getReceiver($order, $customer);
+            $this->_getReceiver($order, $cnpj_cpf);
 
             $this->_getOffer($order->getShippingMethod());
 
@@ -57,7 +67,9 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
                 $this->_offer['token'], $this->_offer['code'], Mage::getStoreConfig('carriers/freterapido/token')
             );
 
-            $this->_doQuote();
+            $this->_doHire();
+
+//            $this->_addTracking($shipment);
 
             $this->_log('Contratação realizada com sucesso.');
 
@@ -87,23 +99,20 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return bool
      */
-    protected function _getReceiver($order, $customer)
+    protected function _getReceiver($order, $cnpj_cpf)
     {
         try {
-            $name = $customer->getFirstname() .
+            $name = $order->getShippingAddress()->getFirstname() .
                 ' ' .
-                $customer->getMiddlename() .
-                ' ' .
-                $customer->getLastname();
+                $order->getShippingAddress()->getLastname();
 
             $this->_receiver = array();
-//            $this->_receiver['tipo_pessoa'] = 1;
-            $this->_receiver['cnpj_cpf'] = preg_replace("/\D/", '', $customer->getTaxvat());
+            $this->_receiver['cnpj_cpf'] = preg_replace("/\D/", '', $cnpj_cpf);
             $this->_receiver['nome'] = $name;
-            $this->_receiver['email'] = $order->getShippingAddress()->getData('email');
-            $this->_receiver['telefone'] = preg_replace("/\D/", '', $order->getShippingAddress()->getData('telephone'));
+            $this->_receiver['email'] = $order->getShippingAddress()->getEmail();
+            $this->_receiver['telefone'] = preg_replace("/\D/", '', $order->getShippingAddress()->getTelephone());
 
-            $this->_receiver['endereco']['cep'] = $this->_formatZipCode($order->getShippingAddress()->getData('postcode'));
+            $this->_receiver['endereco']['cep'] = $this->_formatZipCode($order->getShippingAddress()->getPostcode());
             $this->_receiver['endereco']['rua'] = $order->getShippingAddress()->getData('street');
 
         } catch (Exception $e) {
@@ -128,6 +137,11 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         return $new_zipcode;
     }
 
+    /**
+     * Separa o token e o código da oferta armazenados no shipping method
+     *
+     * @param string $shipping_method
+     */
     protected function _getOffer($shipping_method)
     {
         $method = explode('_', $shipping_method);
@@ -140,15 +154,18 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
     }
 
-    protected function _doQuote()
+    /**
+     * Realiza a contratação do frete no Frete Rápido
+     *
+     * @throws Exception
+     */
+    protected function _doHire()
     {
         // Dados que serão enviados para a API do Frete Rápido
         $request_data = array(
             'remetente' => $this->_sender,
             'destinatario' => $this->_receiver,
         );
-
-        $this->_log($this->_url . ' | ' . json_encode($request_data));
 
         $config = array(
             'adapter' => 'Zend_Http_Client_Adapter_Curl',
@@ -170,6 +187,25 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         if ($response->getStatus() != 200) {
             throw new Exception('Erro ao tentar se comunicar com a API - Code: ' . $response->getStatus() . '. Error: ' . $response->getMessage());
         }
+
+        $response = json_decode($response->getBody());
+
+        $this->_track_id = $response->id_frete;
+    }
+
+    /**
+     * Adiciona o id de acompanhamento do Frete Rápido no tracking da ordem
+     *
+     * @param $shipment
+     */
+    protected function _addTracking($shipment)
+    {
+        $track = Mage::getModel('sales/order_shipment_track')
+            ->setNumber($this->_track_id) //tracking number / awb number
+            ->setCarrierCode('custom') //carrier code
+            ->setTitle('Frete Rápido'); //carrier title
+
+        $shipment->addTrack($track);
     }
 
     /**

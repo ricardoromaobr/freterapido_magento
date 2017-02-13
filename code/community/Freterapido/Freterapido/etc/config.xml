@@ -96,7 +96,7 @@
                 <weight_type>kg</weight_type>
                 <platform_code>95e893cfc</platform_code>
                 <api_simulation_url>https://freterapido.com/api/external/embarcador/v1/quote-simulator</api_simulation_url>
-                <api_quote_url>https://freterapido.com/api/external/quote/embarcador/v1/ecommerce/%s/offer/%s</api_quote_url>
+                <api_quote_url>https://freterapido.com/api/external/quote/embarcador/v1/ecommerce/%s/offer/%s?token=%s</api_quote_url>
             </freterapido>
         </carriers>
     </default>

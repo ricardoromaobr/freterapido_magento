@@ -99,6 +99,10 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         return array($this->_code => $this->_title);
     }
 
+    public function isTrackingAvailable(){
+        return true;
+    }
+
     /**
      * @param Mage_Shipping_Model_Rate_Request $request
      * @return bool
