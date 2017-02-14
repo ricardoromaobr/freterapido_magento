@@ -39,6 +39,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
     protected $_handling_fee = 0; // Custo adicional
 
+    protected $_additional_percentage = 0; // Percentual adicionals
+
     protected $_leadtime = 0; // Adiciona ao prazo de entrega a quantidade de dias para postagem
 
     protected $_manufacturing_time = 0; // Adiciona o tempo de fabricação do produto selecionado
@@ -69,6 +71,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
             $this->_handling_fee = !empty($this->getConfigData('handling_fee')) ?
                 $this->getConfigData('handling_fee') : 0;
+
+            $this->_additional_percentage = !empty($this->getConfigData('additional_percentage')) ?
+                (float)$this->getConfigData('additional_percentage') : 0;
 
             $this->_leadtime = !empty($this->getConfigData('leadtime')) ?
                 $this->getConfigData('leadtime') : 0;
@@ -205,6 +210,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             'volumes' => $this->_volumes,
             'tipo_frete' => $this->_freight_type,
             'custo_adicional' => $this->_handling_fee,
+            'percentual_adicional' => $this->_additional_percentage / 100,
             'prazo_adicional' => $this->_leadtime,
             'token' => $this->_token,
             'cotacao_plataforma' => $this->_quote_id,
