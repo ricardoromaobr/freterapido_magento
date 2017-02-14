@@ -46,14 +46,18 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
         try {
             // Verifica se o checkout foi feito com o usuário logado ou não, pois a forma de obter o cnpj/cpf é diferente em cada caso
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $cnpj_cpf = Mage::getModel('customer/customer')->load($shipment->getCustomerId())->getTaxvat();
+            if (!empty($shipment->getCustomerId())) {
+                $cnpj_cpf = Mage::getModel('customer/customer')->load($shipment->getCustomerId())->getData('taxvat');
+
+            } elseif (!empty($order->getShippingAddress()->getData('vat_id'))) {
+                $cnpj_cpf = $order->getShippingAddress()->getData('vat_id');
+
             } else {
-                $cnpj_cpf = $order->getShippingAddress()->getVatId();
+                $cnpj_cpf = $order->getData('customer_taxvat');
             }
 
             if (empty($cnpj_cpf))
-                $this->_throwError('Não foi possível obter o CNPJ/CPF do destinatário.');
+                throw new Exception('O CNPJ/CPF do destinatário não foi informado.');
 
             $this->_log('Iniciando contratação...');
 
@@ -69,7 +73,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
             $this->_doHire();
 
-//            $this->_addTracking($shipment);
+            $this->_addTracking($shipment);
 
             $this->_log('Contratação realizada com sucesso.');
 
@@ -203,7 +207,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $track = Mage::getModel('sales/order_shipment_track')
             ->setNumber($this->_track_id) //tracking number / awb number
             ->setCarrierCode('custom') //carrier code
-            ->setTitle('Frete Rápido'); //carrier title
+            ->setTitle('Frete Rápido (https://freterapido.com/painel'); //carrier title
 
         $shipment->addTrack($track);
     }
