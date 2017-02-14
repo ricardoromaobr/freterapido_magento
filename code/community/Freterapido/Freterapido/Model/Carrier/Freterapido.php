@@ -40,16 +40,20 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     protected $_handling_fee = 0; // Custo adicional
 
     protected $_leadtime = 0; // Adiciona ao prazo de entrega a quantidade de dias para postagem
+
     protected $_manufacturing_time = 0; // Adiciona o tempo de fabricação do produto selecionado
 
-    protected $_limit = 0;
+    protected $_limit = 5;
 
     protected $_filter = 0;
 
     protected $_token = null;
+
+    protected $_quote_id = 0;
+
     protected $_volumes = array();
 
-    protected $_shipping_methods = array();
+    protected $_offer_token = null;
 
     // Função chamada pelo Magento para calcular frete
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
@@ -69,10 +73,13 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             $this->_leadtime = !empty($this->getConfigData('leadtime')) ?
                 $this->getConfigData('leadtime') : 0;
 
-            $this->_limit = $this->getConfigData('limit');
             $this->_filter = $this->getConfigData('filter');
+            $this->_limit = $this->getConfigData('limit');
             $this->_platform_code = $this->getConfigData('platform_code');
             $this->_token = $this->getConfigData('token');
+
+            // Obtém o id da cotação atual no Magento
+            $this->_quote_id = Mage::getSingleton('checkout/session')->getQuoteId();
 
             // Obtém os volumes
             $this->_getVolumes($request);
@@ -90,6 +97,10 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     public function getAllowedMethods()
     {
         return array($this->_code => $this->_title);
+    }
+
+    public function isTrackingAvailable(){
+        return true;
     }
 
     /**
@@ -151,11 +162,11 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         return true;
     }
 
-    //TODO: criar método para buscar o id do expedior caso o cep do expedidor esteja preenchido
-
     protected function _getReceiver(Mage_Shipping_Model_Rate_Request $request)
     {
         $this->_receiver = array();
+        // Seta como pessoa física
+        $this->_receiver['tipo_pessoa'] = 1;
         // Recupera o CEP digitado pelo usuário
         $this->_receiver['endereco']['cep'] = $this->_formatZipCode($request->getDestPostcode());
 
@@ -196,6 +207,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             'custo_adicional' => $this->_handling_fee,
             'prazo_adicional' => $this->_leadtime,
             'token' => $this->_token,
+            'cotacao_plataforma' => $this->_quote_id,
             'codigo_plataforma' => $this->_platform_code
         );
 
@@ -233,9 +245,13 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         }
 
         $response = json_decode($response->getBody());
+
         $this->_carriers = isset($response->transportadoras) ? $response->transportadoras : [];
 
         $this->_log('Foram retornadas ' . count($this->_carriers) . ' Transportadoras na consulta');
+
+        // Seta o token da oferta
+        $this->_offer_token = $response->token_oferta;
 
         // Se não retornar nenhuma transportadora na chamada, retorna o resultado vazio
         if (empty($this->_carriers))
@@ -256,26 +272,21 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
      */
     protected function _appendShippingReturn($carrier)
     {
-        if ($carrier->nome == 'Correios')
+        if (strtolower($carrier->nome) == 'correios')
             $carrier->nome = strtoupper($carrier->nome . ' - ' . $carrier->servico);
 
-        // Gera um nome para o método de cada transportadora
-        $shipping_method = preg_replace("/\W/", '', strtolower($carrier->nome));
-
-        // Se o nome para o método já existir, é acrescentado um valor para diferenciá-lo
-        if (in_array($shipping_method, $this->_shipping_methods))
-            $shipping_method = $shipping_method . '-' . number_format($carrier->preco_frete, 2, '', '');
-
-        // Adiciona o nome do método na lista
-        $this->_shipping_methods[] = $shipping_method;
+        // Seta o nome do método
+        $shipping_method = $this->_offer_token . '_' . $carrier->oferta;
 
         /** @var Mage_Shipping_Model_Rate_Result_Method $rate */
         $method = Mage::getModel('shipping/rate_result_method');
 
         $method->setCarrier($this->_code);
+
         $method->setMethod($shipping_method);
 
         $deadline = $carrier->prazo_entrega + $this->_manufacturing_time;
+
         $deadline_msg = $deadline > 1 ? 'dias úteis' : 'dia útil';
 
         $method->setMethodTitle(sprintf($this->getConfigData('msgprazo'),
