@@ -1,10 +1,12 @@
+
 ![Frete Rápido - Sistema Inteligente de Gestão Logística](https://freterapido.com/imgs/frete_rapido.png)
 ===
 
-### Módulo para plataforma Magento
-Versão do módulo: 1.0.3
+###**Módulo para plataforma Magento**
 
-Compatibilidade com Magento: 1.9.x
+Versão do módulo: 1.0.4
+
+Compatibilidade com Magento: **1.9.x**
 
 Links úteis:
 
@@ -14,22 +16,20 @@ Links úteis:
 
 ----------
 
-### Instalação
+###**Instalação**
 
->**ATENÇÃO!** Recomendamos que seja feito backup da sua loja antes de realizar qualquer instalação. A instalação desse módulo é de inteira responsabilidade do lojista.
+>**<i class="icon-attention"></i> ATENÇÃO!** Recomendamos que seja feito backup da sua loja antes de realizar qualquer instalação. A instalação desse módulo é de inteira responsabilidade do lojista.
 
-----------
-####Instalação manual
 
-- [Baixe aqui a última versão][4], descompacte o conteúdo do arquivo zip dentro da pasta "app" da sua loja Magento.
+- [Baixe aqui a última versão][4],  descompacte o conteúdo do arquivo zip dentro da pasta "app" da sua loja Magento.
 - Verifique se o arquivo **local.xml** está habilitado na pasta "app/etc" da sua loja Magento. Caso não esteja, é só renomear o arquivo **local.xml.sample** para **local.xml**.
 - Acesse a área administrativa de sua loja e limpe o cache em: Sistema > Gerenciamento de Cache.
 
-![Mensagem de atenção para backup da loja](http://freterapido.com/imgs/magento_doc/attention_2.png "#FicaDica ;)")
+![Mensagem de atenção para backup da loja](http://freterapido.com/imgs/magento_doc/attention_2.png "#FicaDica ;&#41;")
 
 ----------
 
-### Configurações
+###Configurações
 
 É necessário realizar algumas configurações na sua loja para obter total usabilidade do módulo **Frete Rápido**.
 
@@ -47,46 +47,48 @@ Links úteis:
 > **Obs:** Nem todas as categorias da sua loja podem coincidir com a relação de categorias do Frete Rápido, mas é possível relacioná-las de forma ampla.
 > 
 > **Exemplo 1**: Moda feminina -> Vestuário
-
+> 
 > **Exemplo 2**: CDs -> CD / DVD / Blu-Ray
-
+> 
 > **Exemplo 3**: Violões -> Instrumento Musical
 
-- Para calcular o frete precisamos saber as medidas das embalagens de cada produto. Você precisa informá-las em: Catalog > Manage Products > Frete Rápido.
+- Para calcular o frete precisamos saber as medidas das embalagens de cada produto. Você precisa informá-las em: Catalog > Manage Products > [Selecionar produto] > menu Frete Rápido.
 
 ![Configurando as medidas das embalagens dos produtos](https://freterapido.com/imgs/magento_doc/iten_setting.PNG "Configuração de medidas dos produtos")
 
-> **Obs:** As medidas devem considerar apenas as dimensões da embalagem pronta para envio/postagem.
+> **Atenção:** Considerar as dimensões e peso do produto com a embalagem pronta para envio/postagem.
+> É obrigatório ter o peso configurado em cada produto para que seja possível cotar o frete de forma eficiente. As dimensões podem ficar em branco e neste caso, serão utilizadas as medidas padrões informadas na configuração do plugin, mas é recomendado que cada produto tenha suas configurações próprias de peso e dimensões.
 
-#### Configurações do módulo:
+####Configurações do módulo:
 
 - Agora, configure a nova forma de entrega: System > Settings > Shipping Methods > Frete Rápido (conforme imagem abaixo).
 
-![Configurando o módulo do Frete Rápido](http://freterapido.com/imgs/magento_doc/extension_settings.PNG?v=1 "Configurações do módulo")
+![Configurando o módulo do Frete Rápido](https://freterapido.com/imgs/magento_doc/extension_settings.PNG "Configurações do módulo")
 
 - **Habilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
-
 - **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido.
-
-- **Inscrição Estadual:** Inscrição estadual da sua empresa, caso seja isento, informar “ISENTO”.
-
-- **Formato de Peso:** Define o formato de peso utilizado pela loja em Quilos ou Gramas.
-
-- **Correios - Valor Declarado:** Habilita ou desabilita o serviço de “Valor Declarado” com os Correios, definindo se os valores dos produtos serão declarados.
-
-- **Correios - Mão Própria:** Habilita ou desabilita o serviço de “Mão Própria”.
-
-- **Correios - Aviso de Recebimento:** Habilita ou desabilita o serviço de “Aviso de Recebimento”.
-
+- **Formato do Peso:** Formato do valor do peso registrado para cada produto (Quilos ou Gramas).
+- **Altura padrão (cm):** Define a altura padrão dos produtos que não tiverem altura informada.
+- **Largura padrão (cm):** Define a largura padrão dos produtos que não tiverem altura informada.
+- **Comprimento padrão (cm):** Define a comprimento padrão dos produtos que não tiverem altura informada.
 - **Resultados:** Define como deseja receber as cotações.
-
 - **Limite:** Permitir limitar, até 20, a quantidade de cotações que deseja apresentar ao visitante.
-
 - **Prazo adicional de envio/postagem (dias):** Permitir inserir a quantidade de dias necessário para despacho das mercadorias. Esse valor será acrescido ao prazo do frete.
-
 - **Custo adicional de envio/postagem (R$):** Permite informar, caso haja, um custo adicional de despacho das mercadorias. Esse valor será acrescido ao valor do frete.
-
+- **Percentual adicional (%):** Permite informar, caso haja, uma porcentagem adicional de custos referentes à operação do frete. Esse valor será acrescido ao valor do frete.
 - **Token:** Token de integração da sua empresa disponível no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
+
+--------
+
+###Contratação do Frete:
+É possível contratar o frete diretamente na área administrativa da loja, no detalhamento do pedido do cliente.
+
+* Abra o pedido (Sales > Orders) e clique no botão **"Ship"**.
+![Caminho para contratar o frete](https://freterapido.com/imgs/magento_doc/order.png "Detalhamento do pedido")
+
+* Você será redirecionado para a tela de confirmação do frete. Após conferir as informações, clique no botão **"Submit Shipment"**
+![Confirmação da contratação do frete](https://freterapido.com/imgs/magento_doc/confirm_order.PNG "Detalhes do frete")
+* Neste momento, o Frete Rápido irá solicitar a coleta/despacho dos itens do pedido à transportadora escolhida.
 
 --------
 
@@ -97,7 +99,7 @@ Links úteis:
 --------
 
 ###Contribuições
-Encontrou algum bug ou tem sugestões de melhorias no código? Sencacional! Não se acanhe, nos envie um pull request com a sua alteração e ajude este projeto a ficar ainda melhor.
+Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não se acanhe, nos envie um pull request com a sua alteração e ajude este projeto a ficar ainda melhor.
 
 1. Faça um "Fork"
 2. Crie seu branch para a funcionalidade: ` $ git checkout -b feature/nova-funcionalidade`
