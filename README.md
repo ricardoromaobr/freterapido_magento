@@ -54,7 +54,7 @@ Links úteis:
 
 - Para calcular o frete precisamos saber as medidas das embalagens de cada produto. Você precisa informá-las em: Catalog > Manage Products > [Selecionar produto] > menu Frete Rápido.
 
-![Configurando as medidas das embalagens dos produtos](https://freterapido.com/imgs/magento_doc/iten_setting.PNG "Configuração de medidas dos produtos")
+![Configurando as medidas das embalagens dos produtos](http://freterapido.com/imgs/magento_doc/iten_setting.PNG "Configuração de medidas dos produtos")
 
 > **Atenção:** Considerar as dimensões e peso do produto com a embalagem pronta para envio/postagem.
 > É obrigatório ter o peso configurado em cada produto para que seja possível cotar o frete de forma eficiente. As dimensões podem ficar em branco e neste caso, serão utilizadas as medidas padrões informadas na configuração do plugin, mas é recomendado que cada produto tenha suas configurações próprias de peso e dimensões.
