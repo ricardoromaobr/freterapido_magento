@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @category  Freterapido
+ * @package   Freterapido_Freterapido
+ * @author    freterapido.com <suporte@freterapido.com>
+ * @copyright Frete Rápido (https://freterapido.com)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/freterapido/freterapido-magento
+ */
+-->
+<config>
+    <modules>
+        <Freterapido_Freterapido>
+            <version>1.0.5</version>
+            <depends>
+                <Mage_shipping />
+            </depends>
+        </Freterapido_Freterapido>
+    </modules>
+    <global>
+        <helpers>
+            <freterapido>
+                <class>Freterapido_Freterapido_Helper</class>
+            </freterapido>
+        </helpers>
+        <models>
+            <tmshipping>
+                <class>Freterapido_Freterapido</class>
+            </tmshipping>
+            <freterapido>
+                <class>Freterapido_Freterapido_Model</class>
+            </freterapido>
+            <catalog>
+                <class>Mage_Catalog_Model</class>
+            </catalog>
+        </models>
+        <resources>
+            <freterapido_setup>
+                <setup>
+                    <module>Freterapido_Freterapido</module>
+                    <class>Freterapido_Freterapido_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>directory_setup</use>
+                </connection>
+            </freterapido_setup>
+        </resources>
+        <sales>
+            <shipping>
+                <carriers>
+                    <freterapido>
+                        <class>Freterapido_Freterapido_Model_Carrier_Freterapido</class>
+                    </freterapido>
+                </carriers>
+            </shipping>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <fr_volume_altura />
+                        <fr_volume_largura />
+                        <fr_volume_comprimento />
+                        <fr_volume_prazo_fabricacao />
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+        <events>
+            <sales_order_shipment_save_before>
+                <observers>
+                    <freterapido>
+                        <type>singleton</type>
+                        <class>Freterapido_Freterapido_Model_Observer</class>
+                        <method>quote</method>
+                    </freterapido>
+                </observers>
+            </sales_order_shipment_save_before>
+        </events>
+    </global>
+    <default>
+        <carriers>
+            <freterapido>
+                <active>1</active>
+                <model>freterapido/carrier_freterapido</model>
+                <title>Opções de entrega</title>
+                <!--  MESSAGES  -->
+                <apierror>Não foi possível se comunicar com o serviço do Frete Rápido</apierror>
+                <msgprazo>%s - Entrega em até %d %s</msgprazo>
+                <!-- VOLUME -->
+                <default_type>999</default_type>
+                <default_height>50</default_height>
+                <default_width>50</default_width>
+                <default_length>50</default_length>
+
+                <!-- CONFIGURATION -->
+                <weight_type>kg</weight_type>
+                <platform_code>95e893cfc</platform_code>
+                <api_simulation_url>http://api-externa.freterapido.app/embarcador/v1/quote-simulator</api_simulation_url>
+                <api_quote_url>https://freterapido.com/api/external/embarcador/v1/quote/ecommerce/%s/offer/%s?token=%s</api_quote_url>
+            </freterapido>
+        </carriers>
+    </default>
+</config>

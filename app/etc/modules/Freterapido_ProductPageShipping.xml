@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * This plugin was based on EcomDev_ProductPageShipping <https://github.com/EcomDev/EcomDev_ProductPageShipping>
+ *
+ * @category  Freterapido
+ * @package   Freterapido_ProductPageShipping
+ * @author    freterapido.com <suporte@freterapido.com>
+ * @copyright Frete Rápido (https://freterapido.com)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/freterapido/freterapido-magento
+ */
+-->
+<config>
+    <modules>
+        <Freterapido_ProductPageShipping>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Catalog />
+                <Mage_Shipping />
+            </depends>
+        </Freterapido_ProductPageShipping>
+    </modules>
+</config>

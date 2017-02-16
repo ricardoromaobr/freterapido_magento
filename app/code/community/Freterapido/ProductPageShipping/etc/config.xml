@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * This plugin was based on EcomDev_ProductPageShipping <https://github.com/EcomDev/EcomDev_ProductPageShipping>
+ *
+ * @category  Freterapido
+ * @package   Freterapido_ProductPageShipping
+ * @author    freterapido.com <suporte@freterapido.com>
+ * @copyright Frete Rápido (https://freterapido.com)
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/freterapido/freterapido-magento
+ */
+-->
+<config>
+    <modules>
+        <Freterapido_ScheduledProduct>
+            <version>1.0.0</version>
+        </Freterapido_ScheduledProduct>
+    </modules>
+    <global>
+        <models>
+            <freterapido_productpageshipping>
+                <class>Freterapido_ProductPageShipping_Model</class>
+            </freterapido_productpageshipping>
+        </models>
+        <blocks>
+            <freterapido_productpageshipping>
+                <class>Freterapido_ProductPageShipping_Block</class>
+            </freterapido_productpageshipping>
+        </blocks>
+        <helpers>
+            <freterapido_productpageshipping>
+                <class>Freterapido_ProductPageShipping_Helper</class>
+            </freterapido_productpageshipping>
+        </helpers>
+    </global>
+    <frontend>
+        <routers>
+            <freterapido_productpageshipping>
+                <use>standard</use>
+                <args>
+                    <frontName>productpageshipping</frontName>
+                    <module>Freterapido_ProductPageShipping</module>
+                </args>
+            </freterapido_productpageshipping>
+        </routers>
+        <events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <freterapido_productpageshipping>
+                        <type>singleton</type>
+                        <model>freterapido_productpageshipping/observer</model>
+                        <method>observeLayoutHandleInitialization</method>
+                    </freterapido_productpageshipping>
+                </observers>
+            </controller_action_layout_load_before>
+        </events>
+        <layout>
+            <updates>
+                <freterapido_productpageshipping>
+                    <file>freterapido/productpageshipping.xml</file>
+                </freterapido_productpageshipping>
+            </updates>
+        </layout>
+    </frontend>
+    <freterapido>
+        <productshippingpage>
+            <controller_actions>
+                <catalog_product_view />
+            </controller_actions>
+        </productshippingpage>
+    </freterapido>
+    <default>
+        <freterapido_productpageshipping>
+            <settings>
+                <enabled>0</enabled>
+                <display_position>left</display_position>
+                <display_position_flag>0</display_position_flag>
+                <use_coupon_code>0</use_coupon_code>
+            </settings>
+        </freterapido_productpageshipping>
+    </default>
+</config>
