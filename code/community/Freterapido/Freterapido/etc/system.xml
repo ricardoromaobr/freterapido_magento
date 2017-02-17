@@ -62,7 +62,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>CNPJ da loja</comment>
+                            <comment>CNPJ cadastrado no Frete Rápido</comment>
                         </shipper_cnpj>
                         <weight_type translate="label">
                             <label>Formato do Peso</label>
