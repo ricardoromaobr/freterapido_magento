@@ -94,6 +94,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
             // Retorna o XML com o resultado para o Magento.
             return $this->_result;
+
         } catch (Exception $e) {
             $this->_throwError('apierror', $e->getMessage() . ' - [' . __LINE__ . '] ' . $e->getFile());
         }
@@ -213,9 +214,11 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             'percentual_adicional' => $this->_additional_percentage / 100,
             'prazo_adicional' => $this->_leadtime,
             'token' => $this->_token,
-            'cotacao_plataforma' => $this->_quote_id,
             'codigo_plataforma' => $this->_platform_code
         );
+
+        if (!is_null($this->_quote_id))
+            $request_data['cotacao_plataforma'] = $this->_quote_id;
 
         // Adiciona o filtro caso tenhas sido selecionado
         if ($this->_filter)

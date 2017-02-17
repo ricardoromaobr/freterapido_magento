@@ -21,7 +21,7 @@
                             <config>
                                 <children>
                                     <freterapido_productpageshipping module="freterapido_productpageshipping" translate="title">
-                                        <title>Product Page Shipping</title>
+                                        <title>Frete na Página do Produto</title>
                                     </freterapido_productpageshipping>
                                 </children>
                             </config>
