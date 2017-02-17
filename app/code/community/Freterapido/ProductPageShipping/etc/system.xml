@@ -30,9 +30,23 @@
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
+                    <comment>
+                        <![CDATA[ <div style="background: #FFF; border: none; border-radius: 5px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1)">
+                        <div style="padding:15px;text-align: center; vertical-align:bottom;">
+                        <a href="http://www.freterapido.com" target="_blank">
+                        <img src="https://freterapido.com/imgs/frete_rapido.png" style="margin: auto" />
+                        </a>
+                        <div style="padding-top: 20px;">
+                            Em caso de dúvidas, reporte de bugs ou sugestão de melhorias, acesse a <a href="https://github.com/freterapido/freterapido_magento" target="_blank"<name />documentação deste módulo no Github</a>.
+                            </br>
+                        </div>
+                        </div>
+                        <div class="clear"></div>
+                        </div> ]]>
+                    </comment>
                     <fields>
                         <enabled translate="label">
-                            <label>Habilitar Frete na Página do Produto</label>
+                            <label>Habilitar</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>50</sort_order>
@@ -43,7 +57,6 @@
                         <display_position translate="label comment">
                             <label>Posição de exibição</label>
                             <frontend_type>select</frontend_type>
-                            <comment>Position of the block depends on your theme layout</comment>
                             <comment>A posição dos blocos depende do layout do tema utilizado</comment>
                             <source_model>freterapido_productpageshipping/config_source_position</source_model>
                             <sort_order>70</sort_order>
@@ -52,10 +65,9 @@
                             <show_in_store>1</show_in_store>
                         </display_position>
                         <display_position_flag translate="label comment">
-                            <label>Positioning Logic</label>
+                            <label>Posicionamento relativo</label>
                             <frontend_type>select</frontend_type>
-                            <comment>Specify desired position of estimator form</comment>
-                            <comment>Especifica a posição desejada do formuário</comment>
+                            <comment>Especifica a posição do formuário em relação aos outros blocos</comment>
                             <source_model>freterapido_productpageshipping/config_source_position_flag</source_model>
                             <sort_order>71</sort_order>
                             <show_in_default>1</show_in_default>
@@ -63,11 +75,13 @@
                             <show_in_store>1</show_in_store>
                         </display_position_flag>
                         <display_position_block translate="label comment">
-                            <label>Positioning Block Alias</label>
+                            <label>Alias de posicionamento do bloco</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[
-                                Especifica o bloco no layout que deve ser substituído para posicionar o formulário de cálculo do frete.
-                                Deixe vazio se o formulário deve ser exibido antes ou depois dos outros blocos. <br /> Alguns valores comuns: <br />
+                                Especifica o bloco no layout que deve ser substituído para posicionar o formulário de cálculo
+                                do frete caso tenha selecionado 'Layout personalizado'.
+                                Deixe vazio se o formulário deve ser exibido antes ou depois dos outros blocos. <br />
+                                Alguns valores comuns: <br />
                                 <strong>cart_sidebar</strong> - No bloco do carrinho de compras<br />
                                 <strong>catalog.product.related</strong> - Nos bloco de produtos relacionados<br />
                                 <strong>tags_popular</strong> - No bloco das tags
@@ -78,7 +92,8 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </display_position_block>
-                        <use_coupon_code translate="label">
+                        <!-- A funcionalidade de desconto poderá ser implementada futuramente -->
+                        <!-- <use_coupon_code translate="label">
                             <label>Exibir campo para cupom de desconto</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -86,7 +101,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </use_coupon_code>
+                        </use_coupon_code> -->
                     </fields>
                 </settings>
             </groups>
