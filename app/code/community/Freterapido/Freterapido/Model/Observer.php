@@ -40,32 +40,34 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
     public function quote($observer)
     {
-        $shipment = $observer->getEvent()->getShipment();
+        $_shipment = $observer->getEvent()->getShipment();
 
-        $order = $shipment->getOrder();
+        $_order = $_shipment->getOrder();
 
         try {
             // Verifica se o checkout foi feito com o usuário logado ou não, pois a forma de obter o cnpj/cpf é diferente em cada caso
-            if (!empty($shipment->getCustomerId())) {
-                $cnpj_cpf = Mage::getModel('customer/customer')->load($shipment->getCustomerId())->getData('taxvat');
+            if (!empty($_shipment->getCustomerId())) {
+                $_cnpj_cpf = Mage::getModel('customer/customer')->load($_shipment->getCustomerId())->getData('taxvat');
 
-            } elseif (!empty($order->getShippingAddress()->getData('vat_id'))) {
-                $cnpj_cpf = $order->getShippingAddress()->getData('vat_id');
+            } elseif (!empty($_order->getShippingAddress()->getData('vat_id'))) {
+                $_cnpj_cpf = $_order->getShippingAddress()->getData('vat_id');
 
             } else {
-                $cnpj_cpf = $order->getData('customer_taxvat');
+                $_cnpj_cpf = $_order->getData('customer_taxvat');
             }
 
-            if (empty($cnpj_cpf))
+            if (empty($_cnpj_cpf))
                 throw new Exception('O CNPJ/CPF do destinatário não foi informado.');
+
+            $_cnpj_cpf = preg_replace("/\D/", '', $_cnpj_cpf);
 
             $this->_log('Iniciando contratação...');
 
             $this->_getSender();
 
-            $this->_getReceiver($order, $cnpj_cpf);
+            $this->_getReceiver($_order, $_cnpj_cpf);
 
-            $this->_getOffer($order->getShippingMethod());
+            $this->_getOffer($_order->getShippingMethod());
 
             $this->_url = sprintf(Mage::getStoreConfig('carriers/freterapido/api_quote_url'),
                 $this->_offer['token'], $this->_offer['code'], Mage::getStoreConfig('carriers/freterapido/token')
@@ -73,7 +75,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
             $this->_doHire();
 
-            $this->_addTracking($shipment);
+            $this->_addTracking($_shipment);
 
             $this->_log('Contratação realizada com sucesso.');
 
@@ -207,7 +209,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $track = Mage::getModel('sales/order_shipment_track')
             ->setNumber($this->_track_id) //tracking number / awb number
             ->setCarrierCode('custom') //carrier code
-            ->setTitle('Frete Rápido (https://freterapido.com/painel'); //carrier title
+            ->setTitle('Frete Rápido'); //carrier title
 
         $shipment->addTrack($track);
     }
