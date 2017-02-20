@@ -1,0 +1,81 @@
+<?php
+/**
+ * This plugin was based on EcomDev_ProductPageShipping <https://github.com/EcomDev/EcomDev_ProductPageShipping>
+ *
+ * @category  Freterapido
+ * @package   Freterapido_ProductPageShipping
+ * @author    freterapido.com <suporte@freterapido.com>
+ * @copyright Frete Rápido (https://freterapido.com)
+ * @license   https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
+ * @link      https://github.com/freterapido/freterapido-magento
+ */
+
+/**
+ * Estimate shipping form
+ *
+ */
+/* @var $this Freterapido_ProductPageShipping_Block_Estimate_Form */
+?>
+<?php if ($this->isEnabled()): ?>
+    <div class="block block-shipping-estimate">
+        <div class="block-title">
+            <strong><span><?php echo Mage::helper('freterapido_productpageshipping')->__('Calcular Frete') ?></span></strong>
+        </div>
+        <div class="block-content">
+            <ul class="shipping-estimation-form" id="shipping-estimation-form">
+                <input type="hidden" id="estimate_country" name="estimate[country_id]" value="<?php echo $this->htmlEscape($this->getConfig()->getDefaultCountry())?>" />
+                <li class="item">
+                    <label for="estimate_postcode" class="required"><em>*</em><?php echo Mage::helper('freterapido_productpageshipping')->__('CEP') ?></label>
+                    <br>
+                    <div class="input-box">
+                        <input class="input-text validate-postcode required-entry" type="text" id="estimate_postcode" name="estimate[postcode]" value="<?php echo $this->htmlEscape($this->getFieldValue('postcode')) ?>" />
+                    </div>
+                </li>
+                <!-- TODO: implementar a exibição do campo de cumpo de desconto, se for necessário -->
+            </ul>
+            <script type="text/javascript">decorateList('shipping-estimation-form');</script>
+            <div class="actions">
+        <span class="please-wait f-left" id="shipping-estimate-loading-message" style="display:none; padding-right: 5px">
+            <?php echo Mage::helper('freterapido_productpageshipping')->__('Calculando valores... ') ?>
+        </span>
+                <div class="f-left">
+                    <button type="button" title="<?php echo Mage::helper('freterapido_productpageshipping')->__('Calcular') ?>" onclick="estimateProductShipping()" class="button btn-">
+                        <span><span><?php echo Mage::helper('freterapido_productpageshipping')->__('Calcular') ?></span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="shipping-estimate-results" style="display:none"></div>
+    <script type="text/javascript">
+        //<![CDATA[
+        function estimateProductShipping() {
+            var estimationUrl = '<?php echo $this->jsQuoteEscape($this->getEstimateUrl());?>';
+            var items = $$(['.shipping-estimation-form input',
+                '.shipping-estimation-form select',
+                '#product_addtocart_form input',
+                '#product_addtocart_form select']);
+
+            var validationResult = true;
+
+            // Check the valid input
+            if (!items.map(Validation.validate).all()) {
+                return;
+            }
+
+            var parameters = Form.serializeElements(items, true);
+            $('shipping-estimate-loading-message').show();
+            $('shipping-estimate-results').hide();
+            new Ajax.Updater('shipping-estimate-results', estimationUrl, {
+                parameters: parameters,
+                onComplete: function () {
+                    $('shipping-estimate-loading-message').hide();
+                    $('shipping-estimate-results').show();
+                }
+            });
+
+        }
+        //]]>
+    </script>
+<?php endif;?>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * This plugin was based on EcomDev_ProductPageShipping <https://github.com/EcomDev/EcomDev_ProductPageShipping>
+ *
+ * @category  Freterapido
+ * @package   Freterapido_ProductPageShipping
+ * @author    freterapido.com <suporte@freterapido.com>
+ * @copyright Frete Rápido (https://freterapido.com)
+ * @license   https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
+ * @link      https://github.com/freterapido/freterapido-magento
+ */
+ -->
+<layout>
+    <freterapido_productpageshipping_skeleton>
+        <reference name="head">
+            <action method="addCss"><file>css/freterapido/productpageshipping.css</file></action>
+        </reference>
+        <block  name="shipping.estimate.form" type="freterapido_productpageshipping/estimate_form" template="freterapido/productpageshipping/estimate/form.phtml" />
+    </freterapido_productpageshipping_skeleton>
+
+    <freterapido_productpageshipping_left>
+        <update handle="freterapido_productpageshipping_skeleton" />
+        <reference name="left">
+            <action method="insert">
+                <block>shipping.estimate.form</block>
+                <siblingName helper="freterapido_productpageshipping/getDisplayPositionBlock"/>
+                <after helper="freterapido_productpageshipping/getDisplayPositionFlag"/>
+            </action>
+        </reference>
+    </freterapido_productpageshipping_left>
+
+    <freterapido_productpageshipping_right>
+        <update handle="freterapido_productpageshipping_skeleton" />
+        <reference name="right">
+            <action method="insert">
+                <block>shipping.estimate.form</block>
+                <siblingName helper="freterapido_productpageshipping/getDisplayPositionBlock"/>
+                <after helper="freterapido_productpageshipping/getDisplayPositionFlag"/>
+            </action>
+        </reference>
+    </freterapido_productpageshipping_right>
+
+    <freterapido_productpageshipping_additional>
+        <update handle="freterapido_productpageshipping_skeleton" />
+        <reference name="product.info.additional">
+            <action method="insert">
+                <block>shipping.estimate.form</block>
+                <siblingName helper="freterapido_productpageshipping/getDisplayPositionBlock"/>
+                <after helper="freterapido_productpageshipping/getDisplayPositionFlag"/>
+            </action>
+        </reference>
+    </freterapido_productpageshipping_additional>
+
+    <freterapido_productpageshipping_custom>
+        <update handle="freterapido_productpageshipping_skeleton" />
+    </freterapido_productpageshipping_custom>
+
+    <freterapido_productpageshipping_estimate_estimate>
+        <block type="freterapido_productpageshipping/estimate_result" name="shipping.estimate.result" template="freterapido/productpageshipping/estimate/result.phtml" output="toHtml" />
+    </freterapido_productpageshipping_estimate_estimate>
+
+</layout>
