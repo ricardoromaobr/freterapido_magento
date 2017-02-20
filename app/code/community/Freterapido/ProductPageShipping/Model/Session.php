@@ -6,7 +6,7 @@
  * @package   Freterapido_ProductPageShipping
  * @author    freterapido.com <suporte@freterapido.com>
  * @copyright Frete Rápido (https://freterapido.com)
- * @license   http://opensource.org/licenses/MIT MIT
+ * @license   https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
  * @link      https://github.com/freterapido/freterapido-magento
  */
 

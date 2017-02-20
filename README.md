@@ -1,9 +1,10 @@
+
 ![Frete Rápido - Sistema Inteligente de Gestão Logística](https://freterapido.com/imgs/frete_rapido.png)
 ===
 
 ###**Módulo para plataforma Magento**
 
-Versão do módulo: 1.0.4
+Versão do módulo: 1.0.5
 
 Compatibilidade com Magento: **1.9.x**
 
@@ -88,6 +89,21 @@ Links úteis:
 * Você será redirecionado para a tela de confirmação do frete. Após conferir as informações, clique no botão **"Submit Shipment"**
 ![Confirmação da contratação do frete](https://freterapido.com/imgs/magento_doc/confirm_order.PNG "Detalhes do frete")
 * Neste momento, o Frete Rápido irá solicitar a coleta/despacho dos itens do pedido à transportadora escolhida.
+
+--------
+
+###Cálculo do frete na página do produto:
+![Configurando o bloco de cálculo do frete na página do produto](https://freterapido.com/imgs/magento_doc/product_page_config.png "Configuração do bloco de cálculo do frete")
+
+- **Habilitar:** Habilita ou desabilita o bloco de cálculo na página do produto.
+- **Posição de exibição:** Permite escolher a posição do bloco no layout da página do produto (o funcionamento dependerá da disposição do layout). As opções são:
+	- Coluna da direita: adiciona na coluna da direita (caso haja).
+	- Coluna da esquerda adiciona na coluna da esquerda (caso haja).
+	- Bloco de informação adicional: adiciona após o bloco de descrição.
+	- Layout personalizado: permite personalizar a posição no campo **Alias de posicionamento do bloco**.
+
+- **Posicionamento relativo:** Permite escolher a posição do bloco em relação aos outros blocos da página.
+- **Alias de posicionamento do bloco:** Permite especificar um bloco para ser substituído pelo bloco de cálculo do frete.
 
 --------
 
