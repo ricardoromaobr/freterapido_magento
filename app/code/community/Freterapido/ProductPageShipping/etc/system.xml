@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * This plugin was based on EcomDev_ProductPageShipping <https://github.com/EcomDev/EcomDev_ProductPageShipping>
+ *
+ * @category  Freterapido
+ * @package   Freterapido_ProductPageShipping
+ * @author    freterapido.com <suporte@freterapido.com>
+ * @copyright Frete Rápido (https://freterapido.com)
+ * @license   https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
+ * @link      https://github.com/freterapido/freterapido-magento
+ */
+-->
+<config>
+    <sections>
+        <freterapido_productpageshipping module="freterapido_productpageshipping" label="label">
+            <class>separator-top</class>
+            <label>Frete na Página do Produto</label>
+            <tab>catalog</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>45</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label">
+                    <label>Frete Rápido</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment>
+                        <![CDATA[ <div style="background: #FFF; border: none; border-radius: 5px; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1)">
+                        <div style="padding:15px;text-align: center; vertical-align:bottom;">
+                        <a href="http://www.freterapido.com" target="_blank">
+                        <img src="https://freterapido.com/imgs/frete_rapido.png" style="margin: auto" />
+                        </a>
+                        <div style="padding-top: 20px;">
+                            Em caso de dúvidas, reporte de bugs ou sugestão de melhorias, acesse a <a href="https://github.com/freterapido/freterapido_magento" target="_blank"<name />documentação deste módulo no Github</a>.
+                            </br>
+                        </div>
+                        </div>
+                        <div class="clear"></div>
+                        </div> ]]>
+                    </comment>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Habilitar</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <display_position translate="label comment">
+                            <label>Posição de exibição</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>A posição dos blocos depende do layout do tema utilizado</comment>
+                            <source_model>freterapido_productpageshipping/config_source_position</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </display_position>
+                        <display_position_flag translate="label comment">
+                            <label>Posicionamento relativo</label>
+                            <frontend_type>select</frontend_type>
+                            <comment>Especifica a posição do formuário em relação aos outros blocos</comment>
+                            <source_model>freterapido_productpageshipping/config_source_position_flag</source_model>
+                            <sort_order>71</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </display_position_flag>
+                        <display_position_block translate="label comment">
+                            <label>Alias de posicionamento do bloco</label>
+                            <frontend_type>text</frontend_type>
+                            <comment><![CDATA[
+                                Especifica o bloco no layout que deve ser substituído para posicionar o formulário de cálculo
+                                do frete caso tenha selecionado 'Layout personalizado'.
+                                Deixe vazio se o formulário deve ser exibido antes ou depois dos outros blocos. <br />
+                                Alguns valores comuns: <br />
+                                <strong>cart_sidebar</strong> - No bloco do carrinho de compras<br />
+                                <strong>catalog.product.related</strong> - Nos bloco de produtos relacionados<br />
+                                <strong>tags_popular</strong> - No bloco das tags
+
+                            ]]></comment>
+                            <sort_order>72</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </display_position_block>
+                        <!-- A funcionalidade de desconto poderá ser implementada futuramente -->
+                        <!-- <use_coupon_code translate="label">
+                            <label>Exibir campo para cupom de desconto</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_coupon_code> -->
+                    </fields>
+                </settings>
+            </groups>
+        </freterapido_productpageshipping>
+    </sections>
+</config>

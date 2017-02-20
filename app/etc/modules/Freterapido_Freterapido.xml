@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @category  Freterapido
+ * @package   Freterapido_Freterapido
+ * @author    freterapido.com <suporte@freterapido.com>
+ * @copyright Frete Rápido (https://freterapido.com)
+ * @license   https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
+ * @link      https://github.com/freterapido/freterapido-magento
+ */
+-->
+<config>
+    <modules>
+        <Freterapido_Freterapido>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Freterapido_Freterapido>
+    </modules>
+</config>
