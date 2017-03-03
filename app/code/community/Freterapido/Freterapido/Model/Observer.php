@@ -40,6 +40,12 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
     public function quote($observer)
     {
+        $active = Mage::getStoreConfig('carriers/freterapido/active');
+
+        // Se o módulo não estiver ativo, ignora a contratação pelo Frete Rápido
+        if (!$active)
+            return false;
+
         $_shipment = $observer->getEvent()->getShipment();
 
         $_order = $_shipment->getOrder();
