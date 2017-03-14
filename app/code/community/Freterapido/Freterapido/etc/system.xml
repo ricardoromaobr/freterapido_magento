@@ -124,33 +124,6 @@
                             <show_in_store>1</show_in_store>
                             <comment>Escolha um limite de resultados</comment>
                         </limit>
-                        <leadtime>
-                            <label>Prazo adicional de envio/postagem (dias)</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>14</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment>Será acrescido no prazo do frete</comment>
-                        </leadtime>
-                        <handling_fee>
-                            <label>Custo adicional de envio/postagem (R$)</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>15</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment>Será acrescido no valor do frete</comment>
-                        </handling_fee>
-                        <additional_percentage>
-                            <label>Percentual adicional (%)</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>16</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment>Percentual a ser acrescido no valor final do frete</comment>
-                        </additional_percentage>
                         <token translate="label">
                             <label>Token</label>
                             <frontend_type>text</frontend_type>
