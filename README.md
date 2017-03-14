@@ -2,7 +2,7 @@
 ![Frete Rápido - Sistema Inteligente de Gestão Logística](https://freterapido.com/imgs/frete_rapido.png)
 ===
 
-###**Módulo para plataforma Magento**
+### Módulo para plataforma Magento
 
 Versão do módulo: 1.0.5
 
@@ -16,7 +16,7 @@ Links úteis:
 
 ----------
 
-###Instalação
+### Instalação
 
 >**<i class="icon-attention"></i> ATENÇÃO!** Recomendamos que seja feito backup da sua loja antes de realizar qualquer instalação. A instalação desse módulo é de inteira responsabilidade do lojista.
 
@@ -29,11 +29,11 @@ Links úteis:
 
 ----------
 
-###Configurações
+### Configurações
 
 É necessário realizar algumas configurações na sua loja para obter total usabilidade do módulo **Frete Rápido**.
 
-####1. Configurações do módulo:
+#### 1. Configurações do módulo:
 
 - Agora, configure a nova forma de entrega: System > Settings > Shipping Methods > Frete Rápido (conforme imagem abaixo).
 
@@ -52,7 +52,7 @@ Links úteis:
 - **Percentual adicional (%):** Permite informar, caso haja, uma porcentagem adicional de custos referentes à operação do frete. Esse valor será acrescido ao valor do frete.
 - **Token:** Token de integração da sua empresa disponível no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
 
-####2. Remetente
+#### 2. Remetente
 
 - As informações sobre o remetente das mercadorias são muito importantes para sabermos qual a origem dos seus fretes. Acesse a área administrativa da sua loja e informe os dados de origem em: System > Settings > Shipping Settings > Origin.
 
@@ -60,7 +60,7 @@ Links úteis:
 
 > **Obs:** É importante informar todos os campos corretamente.
 
-####3. Medidas e Prazo de fabricação:
+#### 3. Medidas e Prazo de fabricação:
 - Para calcular o frete precisamos saber as medidas das embalagens de cada produto. Você precisa informá-las em: Catalog > Manage Products > [Selecionar produto] > menu Frete Rápido.
 
 ![Configurando as medidas das embalagens dos produtos](https://freterapido.com/dev/imgs/magento_doc/iten_setting.PNG "Configuração de medidas dos produtos")
@@ -68,7 +68,7 @@ Links úteis:
 > **Atenção:** Considerar as dimensões e peso do produto com a embalagem pronta para envio/postagem.
 > É obrigatório ter o peso configurado em cada produto para que seja possível cotar o frete de forma eficiente. As dimensões podem ficar em branco e neste caso, serão utilizadas as medidas padrões informadas na configuração do plugin, mas é recomendado que cada produto tenha suas configurações próprias de peso e dimensões.
 
-####4. Categorias
+#### 4. Categorias
 - É necessário relacionar cada categoria da sua loja com as categorias do Frete Rápido em: Catalog > Manage Categories > Categoria no Frete Rápido.
 
 ![Configuração de categorias ](https://freterapido.com/dev/imgs/magento_doc/categories_settings.PNG "Configuração de categorias")
@@ -83,7 +83,7 @@ Links úteis:
 
 --------
 
-###Contratação do Frete
+### Contratação do Frete
 É possível contratar o frete diretamente na área administrativa da loja, no detalhamento do pedido do cliente.
 
 * Abra o pedido (Sales > Orders) e clique no botão **"Ship"**.
@@ -95,7 +95,7 @@ Links úteis:
 
 --------
 
-###Cálculo do frete na página do produto
+### Cálculo do frete na página do produto
 ![Configurando o bloco de cálculo do frete na página do produto](https://freterapido.com/dev/imgs/magento_doc/product_page_config.png "Configuração do bloco de cálculo do frete")
 
 - **Habilitar:** Habilita ou desabilita o bloco de cálculo na página do produto.
@@ -110,13 +110,13 @@ Links úteis:
 
 --------
 
-###Observações gerais:
+### Observações gerais:
 1. Para obter cotações dos Correios é necessário configurar o seu contrato com os Correios no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
 2. Esse módulo atende cotações apenas para destinatários Pessoa Física.
 
 --------
 
-###Contribuições
+### Contribuições
 Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não se acanhe, nos envie um pull request com a sua alteração e ajude este projeto a ficar ainda melhor.
 
 1. Faça um "Fork"
