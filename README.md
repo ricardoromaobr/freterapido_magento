@@ -37,7 +37,7 @@ Links úteis:
 
 - Agora, configure a nova forma de entrega: System > Settings > Shipping Methods > Frete Rápido (conforme imagem abaixo).
 
-![Configurando o módulo do Frete Rápido](https://freterapido.com/dev/imgs/magento_doc/extension_settings.PNG "Configurações do módulo")
+![Configurando o módulo do Frete Rápido](https://freterapido.com/dev/imgs/magento_doc/extension_settings.png "Configurações do módulo")
 
 - **Habilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
 - **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido.
@@ -47,9 +47,6 @@ Links úteis:
 - **Comprimento padrão (cm):** Define a comprimento padrão dos produtos que não tiverem altura informada.
 - **Resultados:** Define como deseja receber as cotações.
 - **Limite:** Permitir limitar, até 20, a quantidade de cotações que deseja apresentar ao visitante.
-- **Prazo adicional de envio/postagem (dias):** Permitir inserir a quantidade de dias necessário para despacho das mercadorias. Esse valor será acrescido ao prazo do frete.
-- **Custo adicional de envio/postagem (R$):** Permite informar, caso haja, um custo adicional de despacho das mercadorias. Esse valor será acrescido ao valor do frete.
-- **Percentual adicional (%):** Permite informar, caso haja, uma porcentagem adicional de custos referentes à operação do frete. Esse valor será acrescido ao valor do frete.
 - **Token:** Token de integração da sua empresa disponível no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
 
 #### 2. Remetente
