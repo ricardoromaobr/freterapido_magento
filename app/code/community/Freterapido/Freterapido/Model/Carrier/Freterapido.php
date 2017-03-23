@@ -284,10 +284,10 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             $carrier->nome, $deadline, $deadline_msg));
 
         // Diz ao Magento qual será o valor do frete
-        $method->setPrice($carrier->preco_final);
+        $method->setPrice($carrier->preco_frete);
 
         // Diz qual será o custo do frete para a loja. Esta informação não é exibida
-        $method->setCost($carrier->preco);
+        $method->setCost($carrier->custo_frete);
 
         $this->_result->append($method);
     }
