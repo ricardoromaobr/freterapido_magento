@@ -388,6 +388,10 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             $length = $this->getConfigData('default_length');
         }
 
+        if (!empty($product_child->getData('fr_volume_prazo_fabricacao')) && $product_child->getData('fr_volume_prazo_fabricacao') > $this->_manufacturing_time)
+            $this->_manufacturing_time = $product_child->getData('fr_volume_prazo_fabricacao');
+
+
         $this->_volumes[$sku]['sku'] = $sku; // Converte para metros
         $this->_volumes[$sku]['altura'] = (float)$height / 100; // Converte para metros
         $this->_volumes[$sku]['largura'] = (float)$width / 100; // Converte para metros
