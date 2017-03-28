@@ -2,9 +2,9 @@
 ![Frete Rápido - Sistema Inteligente de Gestão Logística](https://freterapido.com/imgs/frete_rapido.png)
 ===
 
-### Módulo para plataforma Magento
+### **Módulo para plataforma Magento**
 
-Versão do módulo: 1.0.5
+Versão do módulo: 1.0.6
 
 Compatibilidade com Magento: **1.9.x**
 
