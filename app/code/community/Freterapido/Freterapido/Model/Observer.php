@@ -51,12 +51,16 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $_order = $_shipment->getOrder();
 
         try {
-            // Verifica se o checkout foi feito com o usuário logado ou não, pois a forma de obter o cnpj/cpf é diferente em cada caso
-            if (!empty($_shipment->getCustomerId())) {
-                $_cnpj_cpf = Mage::getModel('customer/customer')->load($_shipment->getCustomerId())->getData('taxvat');
+            // O magento connect não permite verificar direto no método
+            $_customer_id = $_shipment->getCustomerId();
+            $_vat_id = $_order->getShippingAddress()->getData('vat_id');
 
-            } elseif (!empty($_order->getShippingAddress()->getData('vat_id'))) {
-                $_cnpj_cpf = $_order->getShippingAddress()->getData('vat_id');
+            // Verifica se o checkout foi feito com o usuário logado ou não, pois a forma de obter o cnpj/cpf é diferente em cada caso
+            if (!empty($_customer_id)) {
+                $_cnpj_cpf = Mage::getModel('customer/customer')->load($_customer_id)->getData('taxvat');
+
+            } elseif (!empty($_vat_id)) {
+                $_cnpj_cpf = $_vat_id;
 
             } else {
                 $_cnpj_cpf = $_order->getData('customer_taxvat');
@@ -159,10 +163,10 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $method = explode('_', $shipping_method);
         $last_index = count($method) - 1;
 
-        $this->_offer = [
+        $this->_offer = array(
             'token' => $method[$last_index - 1],
             'code' => $method[$last_index]
-        ];
+        );
 
     }
 

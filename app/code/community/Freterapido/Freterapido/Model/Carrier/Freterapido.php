@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 /**
  * @category Freterapido
@@ -237,7 +237,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         $response = json_decode($response->getBody());
 
-        $this->_carriers = isset($response->transportadoras) ? $response->transportadoras : [];
+        $this->_carriers = isset($response->transportadoras) ? $response->transportadoras : array();
 
         $this->_log('Foram retornadas ' . count($this->_carriers) . ' Transportadoras na consulta');
 
@@ -317,8 +317,10 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
                     $_category = Mage::getModel('catalog/category')->load($id);
                     $_level = $_category->getData('level');
 
+                    $_category_fr = $_category->getData('fr_category');
+
                     // Verifica se o Model de categoria não está vazio e se a categoria do FR foi definida para o produto
-                    if (!empty($_category) && !empty($_category->getData('fr_category'))) {
+                    if (!empty($_category) && !empty($_category_fr)) {
                         $categories[$_level] = $_category->getData('fr_category');
                     }
                 }
@@ -364,34 +366,45 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         // Tenta obter as medidas do produto, se for 0 ou vazio tenta obter as medidas genéricas preenchidas na configuração
         // caso também não esteja preenchido ou seja = 0, seta a a medida padrão (50cm)
-        if (!empty($product_child->getData('fr_volume_altura'))) {
-            $height = $product_child->getData('fr_volume_altura');
-        } elseif (!empty($this->getConfigData('generic_height'))){
-            $height = $this->getConfigData('generic_height');
+        $_fr_volume_altura = $product_child->getData('fr_volume_altura');
+        $_generic_height = $this->getConfigData('generic_height');
+
+        if (!empty($_fr_volume_altura)) {
+            $height = $_fr_volume_altura;
+        } elseif (!empty($_generic_height)){
+            $height = $_generic_height;
         } else {
             $height = $this->getConfigData('default_height');
         }
 
-        if (!empty($product_child->getData('fr_volume_largura'))) {
-            $width = $product_child->getData('fr_volume_largura');
-        } elseif (!empty($this->getConfigData('generic_width'))){
-            $width = $this->getConfigData('generic_width');
+        $fr_volume_largura = $product_child->getData('fr_volume_largura');
+        $_generic_width = $this->getConfigData('generic_width');
+
+        if (!empty($fr_volume_largura)) {
+            $width = $fr_volume_largura;
+        } elseif (!empty($_generic_width)){
+            $width = $_generic_width;
         } else {
             $width = $this->getConfigData('default_width');
         }
 
-        if (!empty($product_child->getData('fr_volume_comprimento'))) {
-            $length = $product_child->getData('fr_volume_comprimento');
-        } elseif (!empty($this->getConfigData('generic_length'))){
-            $length = $this->getConfigData('generic_length');
+        $_fr_volume_comprimento = $product_child->getData('fr_volume_comprimento');
+        $_generic_length = $this->getConfigData('generic_length');
+
+        if (!empty($_fr_volume_comprimento)) {
+            $length = $_fr_volume_comprimento;
+        } elseif (!empty($_generic_length)){
+            $length = $_generic_length;
         } else {
             $length = $this->getConfigData('default_length');
         }
 
-        if (!empty($product_child->getData('fr_volume_prazo_fabricacao')) && $product_child->getData('fr_volume_prazo_fabricacao') > $this->_manufacturing_time)
+        $_fr_volume_prazo_fabricacao = $product_child->getData('fr_volume_prazo_fabricacao');
+
+        if (!empty($_fr_volume_prazo_fabricacao) && $_fr_volume_prazo_fabricacao > $this->_manufacturing_time)
             $this->_manufacturing_time = $product_child->getData('fr_volume_prazo_fabricacao');
 
-        $this->_volumes[$sku]['sku'] = $sku; // Converte para metros
+        $this->_volumes[$sku]['sku'] = $sku;
         $this->_volumes[$sku]['altura'] = (float)$height / 100; // Converte para metros
         $this->_volumes[$sku]['largura'] = (float)$width / 100; // Converte para metros
         $this->_volumes[$sku]['comprimento'] = (float)$length / 100; // Converte para metros
