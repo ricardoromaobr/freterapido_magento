@@ -4,7 +4,7 @@
 
 ### **Módulo para plataforma Magento**
 
-Versão do módulo: 1.0.6
+Versão do módulo: 1.0.7
 
 Compatibilidade com Magento: **1.9.x**
 
@@ -45,6 +45,7 @@ Links úteis:
 - **Altura padrão (cm):** Define a altura padrão dos produtos que não tiverem altura informada.
 - **Largura padrão (cm):** Define a largura padrão dos produtos que não tiverem altura informada.
 - **Comprimento padrão (cm):** Define a comprimento padrão dos produtos que não tiverem altura informada.
+- **Frete Grátis:**  Habilita o frete mais barato retornado pelo Frete Rápido como **frete grátis**.
 - **Resultados:** Define como deseja receber as cotações.
 - **Limite:** Permitir limitar, até 20, a quantidade de cotações que deseja apresentar ao visitante.
 - **Token:** Token de integração da sua empresa disponível no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
