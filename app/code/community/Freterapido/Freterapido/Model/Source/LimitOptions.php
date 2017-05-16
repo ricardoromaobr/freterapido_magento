@@ -18,7 +18,7 @@ class Freterapido_Freterapido_Model_Source_LimitOptions
     public function toOptionArray()
     {
 
-        $array = [];
+        $array = array();
 
         foreach (range(1, 20) as $number) {
             $array[$number] = array('value' => $number, 'label' => Mage::helper('adminhtml')->__((string)$number));

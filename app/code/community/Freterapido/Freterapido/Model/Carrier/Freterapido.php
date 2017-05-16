@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 /**
  * @category Freterapido
@@ -37,13 +37,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
     protected $_platform_code = null;
 
-    protected $_handling_fee = 0; // Custo adicional
-
-    protected $_additional_percentage = 0; // Percentual adicionals
-
-    protected $_leadtime = 0; // Adiciona ao prazo de entrega a quantidade de dias para postagem
-
     protected $_manufacturing_time = 0; // Adiciona o tempo de fabricação do produto selecionado
+
+    protected $_free_shipping = false;
 
     protected $_limit = 5;
 
@@ -69,15 +65,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
             $this->_result = Mage::getModel('shipping/rate_result');
 
-            $this->_handling_fee = !empty($this->getConfigData('handling_fee')) ?
-                $this->getConfigData('handling_fee') : 0;
-
-            $this->_additional_percentage = !empty($this->getConfigData('additional_percentage')) ?
-                (float)$this->getConfigData('additional_percentage') : 0;
-
-            $this->_leadtime = !empty($this->getConfigData('leadtime')) ?
-                $this->getConfigData('leadtime') : 0;
-
+            $this->_free_shipping = $this->getConfigData('free_shipping');
             $this->_filter = $this->getConfigData('filter');
             $this->_limit = $this->getConfigData('limit');
             $this->_platform_code = $this->getConfigData('platform_code');
@@ -210,9 +198,6 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             'destinatario' => $this->_receiver,
             'volumes' => $this->_volumes,
             'tipo_frete' => $this->_freight_type,
-            'custo_adicional' => $this->_handling_fee,
-            'percentual_adicional' => $this->_additional_percentage / 100,
-            'prazo_adicional' => $this->_leadtime,
             'token' => $this->_token,
             'codigo_plataforma' => $this->_platform_code
         );
@@ -253,24 +238,35 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             return $this->_result;
         }
 
-        $response = json_decode($response->getBody());
+        $response = json_decode($response->getBody(), true);
 
-        $this->_carriers = isset($response->transportadoras) ? $response->transportadoras : [];
+        $this->_carriers = isset($response['transportadoras']) ? $response['transportadoras'] : array();
 
         $this->_log('Foram retornadas ' . count($this->_carriers) . ' Transportadoras na consulta');
 
         // Seta o token da oferta
-        $this->_offer_token = $response->token_oferta;
+        $this->_offer_token = $response['token_oferta'];
 
         // Se não retornar nenhuma transportadora na chamada, retorna o resultado vazio
         if (empty($this->_carriers))
             return $this->_result;
 
-        foreach ($this->_carriers as $carrier) {
+        // Separa as colunas de preço e prazo para realizar a ordenação
+        $price_column = array_column($this->_carriers, 'preco_frete');
+        $deadline_column = array_column($this->_carriers, 'prazo_entrega');
+
+        // Ordena as transportadoras por preço e prazo
+        array_multisort($price_column, SORT_ASC, $deadline_column, SORT_ASC, $this->_carriers);
+
+        // Se estiver marcada a opção de 'Frete Grátis' na configuração, altera o frete mais barato para 'Frete Grátis'
+        if ($this->_free_shipping && !empty($this->_carriers[0]))
+            $this->_carriers[0]['preco_frete'] = 'Frete Grátis';
+
+        foreach ($this->_carriers as $key => $carrier) {
             if (empty($carrier))
                 continue;
 
-            $this->_appendShippingReturn($carrier);
+            $this->_appendShippingReturn((object) $carrier);
         }
     }
 
@@ -297,6 +293,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         $deadline = $carrier->prazo_entrega + $this->_manufacturing_time;
 
         $deadline_msg = $deadline > 1 ? 'dias úteis' : 'dia útil';
+
+        if (0 == $carrier->preco_frete)
+            $carrier->nome = 'FRETE GRÁTIS';
 
         $method->setMethodTitle(sprintf($this->getConfigData('msgprazo'),
             $carrier->nome, $deadline, $deadline_msg));
@@ -335,8 +334,10 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
                     $_category = Mage::getModel('catalog/category')->load($id);
                     $_level = $_category->getData('level');
 
+                    $_category_fr = $_category->getData('fr_category');
+
                     // Verifica se o Model de categoria não está vazio e se a categoria do FR foi definida para o produto
-                    if (!empty($_category) && !empty($_category->getData('fr_category'))) {
+                    if (!empty($_category) && !empty($_category_fr)) {
                         $categories[$_level] = $_category->getData('fr_category');
                     }
                 }
@@ -382,31 +383,45 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         // Tenta obter as medidas do produto, se for 0 ou vazio tenta obter as medidas genéricas preenchidas na configuração
         // caso também não esteja preenchido ou seja = 0, seta a a medida padrão (50cm)
-        if (!empty($product_child->getData('fr_volume_altura'))) {
-            $height = $product_child->getData('fr_volume_altura');
-        } elseif (!empty($this->getConfigData('generic_height'))){
-            $height = $this->getConfigData('generic_height');
+        $_fr_volume_altura = $product_child->getData('fr_volume_altura');
+        $_generic_height = $this->getConfigData('generic_height');
+
+        if (!empty($_fr_volume_altura)) {
+            $height = $_fr_volume_altura;
+        } elseif (!empty($_generic_height)){
+            $height = $_generic_height;
         } else {
             $height = $this->getConfigData('default_height');
         }
 
-        if (!empty($product_child->getData('fr_volume_largura'))) {
-            $width = $product_child->getData('fr_volume_largura');
-        } elseif (!empty($this->getConfigData('generic_width'))){
-            $width = $this->getConfigData('generic_width');
+        $fr_volume_largura = $product_child->getData('fr_volume_largura');
+        $_generic_width = $this->getConfigData('generic_width');
+
+        if (!empty($fr_volume_largura)) {
+            $width = $fr_volume_largura;
+        } elseif (!empty($_generic_width)){
+            $width = $_generic_width;
         } else {
             $width = $this->getConfigData('default_width');
         }
 
-        if (!empty($product_child->getData('fr_volume_comprimento'))) {
-            $length = $product_child->getData('fr_volume_comprimento');
-        } elseif (!empty($this->getConfigData('generic_length'))){
-            $length = $this->getConfigData('generic_length');
+        $_fr_volume_comprimento = $product_child->getData('fr_volume_comprimento');
+        $_generic_length = $this->getConfigData('generic_length');
+
+        if (!empty($_fr_volume_comprimento)) {
+            $length = $_fr_volume_comprimento;
+        } elseif (!empty($_generic_length)){
+            $length = $_generic_length;
         } else {
             $length = $this->getConfigData('default_length');
         }
 
-        $this->_volumes[$sku]['sku'] = $sku; // Converte para metros
+        $_fr_volume_prazo_fabricacao = $product_child->getData('fr_volume_prazo_fabricacao');
+
+        if (!empty($_fr_volume_prazo_fabricacao) && $_fr_volume_prazo_fabricacao > $this->_manufacturing_time)
+            $this->_manufacturing_time = $product_child->getData('fr_volume_prazo_fabricacao');
+
+        $this->_volumes[$sku]['sku'] = $sku;
         $this->_volumes[$sku]['altura'] = (float)$height / 100; // Converte para metros
         $this->_volumes[$sku]['largura'] = (float)$width / 100; // Converte para metros
         $this->_volumes[$sku]['comprimento'] = (float)$length / 100; // Converte para metros

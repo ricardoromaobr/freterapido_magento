@@ -16,8 +16,12 @@ class Freterapido_Freterapido_Model_Source_Frcategory extends Mage_Eav_Model_Ent
             $this->_options = array();
 
             $this->_options[] = array('label' => 'Abrasivos', 'value' => 1);
+            $this->_options[] = array('label' => 'Acessórios de Airsoft / Paintball', 'value' => 69);
+            $this->_options[] = array('label' => 'Acessórios de Arquearia', 'value' => 73);
+            $this->_options[] = array('label' => 'Acessórios de Pesca', 'value' => 70);
             $this->_options[] = array('label' => 'Adubos / Fertilizantes', 'value' => 2);
             $this->_options[] = array('label' => 'Alimentos', 'value' => 3);
+            $this->_options[] = array('label' => 'Arquearia', 'value' => 72);
             $this->_options[] = array('label' => 'Artigos para Pesca', 'value' => 4);
             $this->_options[] = array('label' => 'Auto Peças', 'value' => 5);
             $this->_options[] = array('label' => 'Bebidas / Destilados', 'value' => 6);
@@ -26,6 +30,7 @@ class Freterapido_Freterapido_Model_Source_Frcategory extends Mage_Eav_Model_Ent
             $this->_options[] = array('label' => 'Calçados', 'value' => 9);
             $this->_options[] = array('label' => 'Cargas refrigeradas/congeladas', 'value' => 62);
             $this->_options[] = array('label' => 'CD / DVD / Blu-Ray', 'value' => 10);
+            $this->_options[] = array('label' => 'Colchão', 'value' => 66);
             $this->_options[] = array('label' => 'Combustíveis / Óleos', 'value' => 11);
             $this->_options[] = array('label' => 'Confecção', 'value' => 12);
             $this->_options[] = array('label' => 'Cosméticos / Perfumaria', 'value' => 13);
@@ -61,7 +66,9 @@ class Freterapido_Freterapido_Model_Source_Frcategory extends Mage_Eav_Model_Ent
             $this->_options[] = array('label' => 'Material Pet Shop / Rações', 'value' => 43);
             $this->_options[] = array('label' => 'Material plástico', 'value' => 50);
             $this->_options[] = array('label' => 'Material Veterinário', 'value' => 44);
-            $this->_options[] = array('label' => 'Móveis / Utensílios', 'value' => 45);
+            $this->_options[] = array('label' => 'Móveis com peças de vidro', 'value' => 68);
+            $this->_options[] = array('label' => 'Móveis desmontados', 'value' => 64);
+            $this->_options[] = array('label' => 'Móveis montados', 'value' => 45);
             $this->_options[] = array('label' => 'Moto Peças', 'value' => 46);
             $this->_options[] = array('label' => 'Mudas / Plantas', 'value' => 47);
             $this->_options[] = array('label' => 'Papelaria / Documentos', 'value' => 48);
@@ -73,8 +80,11 @@ class Freterapido_Freterapido_Model_Source_Frcategory extends Mage_Eav_Model_Ent
             $this->_options[] = array('label' => 'Produtos Veterinários', 'value' => 54);
             $this->_options[] = array('label' => 'Revistas', 'value' => 55);
             $this->_options[] = array('label' => 'Sementes', 'value' => 56);
+            $this->_options[] = array('label' => 'Simulacro de Arma / Airsoft', 'value' => 71);
+            $this->_options[] = array('label' => 'Sofá', 'value' => 65);
             $this->_options[] = array('label' => 'Suprimentos Agrícolas / Rurais', 'value' => 57);
             $this->_options[] = array('label' => 'Têxtil', 'value' => 58);
+            $this->_options[] = array('label' => 'Travesseiro', 'value' => 67);
             $this->_options[] = array('label' => 'Vacinas', 'value' => 59);
             $this->_options[] = array('label' => 'Vestuário', 'value' => 60);
             $this->_options[] = array('label' => 'Vidros / Frágil', 'value' => 61);
