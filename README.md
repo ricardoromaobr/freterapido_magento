@@ -37,7 +37,7 @@ Links úteis:
 
 - Agora, configure a nova forma de entrega: System > Settings > Shipping Methods > Frete Rápido (conforme imagem abaixo).
 
-![Configurando o módulo do Frete Rápido](https://freterapido.com/dev/imgs/magento_doc/extension_settings.png "Configurações do módulo")
+![Configurando o módulo do Frete Rápido](https://freterapido.com/dev/imgs/magento_doc/extension_settings.PNG "Configurações do módulo")
 
 - **Habilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
 - **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido.
