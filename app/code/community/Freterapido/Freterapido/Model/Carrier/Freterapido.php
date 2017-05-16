@@ -39,6 +39,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
     protected $_manufacturing_time = 0; // Adiciona o tempo de fabricação do produto selecionado
 
+    protected $_free_shipping = false;
+
     protected $_limit = 5;
 
     protected $_filter = 0;
@@ -63,6 +65,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
             $this->_result = Mage::getModel('shipping/rate_result');
 
+            $this->_free_shipping = $this->getConfigData('free_shipping');
             $this->_filter = $this->getConfigData('filter');
             $this->_limit = $this->getConfigData('limit');
             $this->_platform_code = $this->getConfigData('platform_code');
@@ -235,24 +238,35 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             return $this->_result;
         }
 
-        $response = json_decode($response->getBody());
+        $response = json_decode($response->getBody(), true);
 
-        $this->_carriers = isset($response->transportadoras) ? $response->transportadoras : array();
+        $this->_carriers = isset($response['transportadoras']) ? $response['transportadoras'] : array();
 
         $this->_log('Foram retornadas ' . count($this->_carriers) . ' Transportadoras na consulta');
 
         // Seta o token da oferta
-        $this->_offer_token = $response->token_oferta;
+        $this->_offer_token = $response['token_oferta'];
 
         // Se não retornar nenhuma transportadora na chamada, retorna o resultado vazio
         if (empty($this->_carriers))
             return $this->_result;
 
-        foreach ($this->_carriers as $carrier) {
+        // Separa as colunas de preço e prazo para realizar a ordenação
+        $price_column = array_column($this->_carriers, 'preco_frete');
+        $deadline_column = array_column($this->_carriers, 'prazo_entrega');
+
+        // Ordena as transportadoras por preço e prazo
+        array_multisort($price_column, SORT_ASC, $deadline_column, SORT_ASC, $this->_carriers);
+
+        // Se estiver marcada a opção de 'Frete Grátis' na configuração, altera o frete mais barato para 'Frete Grátis'
+        if ($this->_free_shipping && !empty($this->_carriers[0]))
+            $this->_carriers[0]['preco_frete'] = 'Frete Grátis';
+
+        foreach ($this->_carriers as $key => $carrier) {
             if (empty($carrier))
                 continue;
 
-            $this->_appendShippingReturn($carrier);
+            $this->_appendShippingReturn((object) $carrier);
         }
     }
 
@@ -279,6 +293,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         $deadline = $carrier->prazo_entrega + $this->_manufacturing_time;
 
         $deadline_msg = $deadline > 1 ? 'dias úteis' : 'dia útil';
+
+        if (0 == $carrier->preco_frete)
+            $carrier->nome = 'FRETE GRÁTIS';
 
         $method->setMethodTitle(sprintf($this->getConfigData('msgprazo'),
             $carrier->nome, $deadline, $deadline_msg));

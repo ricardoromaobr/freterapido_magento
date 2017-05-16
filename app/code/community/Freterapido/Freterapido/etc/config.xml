@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Freterapido_Freterapido>
-            <version>1.0.6</version>
+            <version>1.0.7</version>
             <depends>
                 <Mage_shipping />
             </depends>
@@ -81,6 +81,7 @@
         <carriers>
             <freterapido>
                 <active>1</active>
+                <free_shipping>0</free_shipping>
                 <model>freterapido/carrier_freterapido</model>
                 <title>Opções de entrega</title>
                 <!--  MESSAGES  -->
