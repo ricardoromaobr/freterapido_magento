@@ -34,6 +34,8 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
     protected $_offer = array();
 
+    protected $_increment_id = null;
+
     protected $_track_id = null;
 
     protected $_success = true;
@@ -51,6 +53,9 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $_order = $_shipment->getOrder();
 
         try {
+
+            $this->_increment_id =  $_order->getIncrementId();
+
             // O magento connect não permite verificar direto no método
             $_customer_id = $_shipment->getCustomerId();
             $_vat_id = $_order->getShippingAddress()->getData('vat_id');
@@ -179,6 +184,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
     {
         // Dados que serão enviados para a API do Frete Rápido
         $request_data = array(
+            'numero_pedido' => $this->_increment_id,
             'remetente' => $this->_sender,
             'destinatario' => $this->_receiver,
         );
@@ -200,8 +206,12 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         // Realiza a chamada POST
         $response = $client->request('POST');
 
+        Mage::Log($response, null, 'quote.log', true);
+
         if ($response->getStatus() != 200) {
-            throw new Exception('Erro ao tentar se comunicar com a API - Code: ' . $response->getStatus() . '. Error: ' . $response->getMessage());
+            $_message = $response->getStatus() == 422 ? $response->getBody() : $response->getMessage();
+
+            throw new Exception('Erro ao tentar se comunicar com a API - Code: ' . $response->getStatus() . '. Error: ' . $_message);
         }
 
         $response = json_decode($response->getBody());
