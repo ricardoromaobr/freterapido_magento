@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Freterapido_Freterapido>
-            <version>1.0.8</version>
+            <version>1.0.9</version>
             <depends>
                 <Mage_shipping />
             </depends>
