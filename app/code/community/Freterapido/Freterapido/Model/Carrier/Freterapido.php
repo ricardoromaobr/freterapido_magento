@@ -43,6 +43,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
     protected $_free_shipping_minimum = 0;
 
+    protected $_products_total_value = 0;
+
     protected $_limit = 5;
 
     protected $_filter = 0;
@@ -262,8 +264,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         array_multisort($price_column, SORT_ASC, $deadline_column, SORT_ASC, $this->_carriers);
 
         // Se estiver marcada a opção de 'Frete Grátis' na configuração, altera o frete mais barato para 'Frete Grátis'
-        if (!empty($this->_carriers[0]) && $this->_free_shipping && $this->_free_shipping_minimum < $this->_carriers[0]['preco_frete'])
-            $this->_carriers[0]['preco_frete'] = 'Frete Grátis';
+        if (!empty($this->_carriers[0]) && $this->_free_shipping && $this->_free_shipping_minimum < $this->_products_total_value)
+            $this->_carriers[0]['preco_frete'] = 0;
 
         foreach ($this->_carriers as $key => $carrier) {
             if (empty($carrier))
@@ -360,6 +362,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
                 $this->_volumes[$sku]['quantidade'] = (int)$quantity;
                 $this->_volumes[$sku]['peso'] = $this->_weightVerify($weight);
                 $this->_volumes[$sku]['valor'] = $value;
+
+                // Soma ao valor total do carrinho
+                $this->_products_total_value += $value;
 
                 // Verifica se não possui item filho
                 if (!$item->hasChild()) {
