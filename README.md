@@ -46,6 +46,7 @@ Links úteis:
 - **Largura padrão (cm):** Define a largura padrão dos produtos que não tiverem altura informada.
 - **Comprimento padrão (cm):** Define a comprimento padrão dos produtos que não tiverem altura informada.
 - **Frete Grátis:**  Habilita o frete mais barato retornado pelo Frete Rápido como **frete grátis**.
+- **Valor Mínimo Frete Grátis:**  Define o valor mínimo para ativar a regra de **Frete grátis**. Para valor **indefinido**, informe **0**.
 - **Resultados:** Define como deseja receber as cotações.
 - **Limite:** Permitir limitar, até 20, a quantidade de cotações que deseja apresentar ao visitante.
 - **Token:** Token de integração da sua empresa disponível no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
