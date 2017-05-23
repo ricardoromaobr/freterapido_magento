@@ -41,6 +41,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
     protected $_free_shipping = false;
 
+    protected $_free_shipping_minimum = 0;
+
     protected $_limit = 5;
 
     protected $_filter = 0;
@@ -66,6 +68,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             $this->_result = Mage::getModel('shipping/rate_result');
 
             $this->_free_shipping = $this->getConfigData('free_shipping');
+            $this->_free_shipping_minimum = $this->getConfigData('free_shipping_minimum_value');
             $this->_filter = $this->getConfigData('filter');
             $this->_limit = $this->getConfigData('limit');
             $this->_platform_code = $this->getConfigData('platform_code');
@@ -259,7 +262,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         array_multisort($price_column, SORT_ASC, $deadline_column, SORT_ASC, $this->_carriers);
 
         // Se estiver marcada a opção de 'Frete Grátis' na configuração, altera o frete mais barato para 'Frete Grátis'
-        if ($this->_free_shipping && !empty($this->_carriers[0]))
+        if (!empty($this->_carriers[0]) && $this->_free_shipping && $this->_free_shipping_minimum < $this->_carriers[0]['preco_frete'])
             $this->_carriers[0]['preco_frete'] = 'Frete Grátis';
 
         foreach ($this->_carriers as $key => $carrier) {

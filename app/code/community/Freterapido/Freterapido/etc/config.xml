@@ -82,6 +82,7 @@
             <freterapido>
                 <active>1</active>
                 <free_shipping>0</free_shipping>
+                <free_shipping_minimum_value>0</free_shipping_minimum_value>
                 <model>freterapido/carrier_freterapido</model>
                 <title>Opções de entrega</title>
                 <!--  MESSAGES  -->
