@@ -4,7 +4,7 @@
 
 ### **Módulo para plataforma Magento**
 
-Versão do módulo: 1.0.7
+Versão do módulo: 1.0.8
 
 Compatibilidade com Magento: **1.9.x**
 
@@ -25,7 +25,7 @@ Links úteis:
 - Verifique se o arquivo **local.xml** está habilitado na pasta "app/etc" da sua loja Magento. Caso não esteja, é só renomear o arquivo **local.xml.sample** para **local.xml**.
 - Acesse a área administrativa de sua loja e limpe o cache em: Sistema > Gerenciamento de Cache.
 
-![Mensagem de atenção para backup da loja](docs/img/attention_2.png "#FicaDica ;&#41;")
+![Mensagem de atenção para backup da loja](app/code/community/Freterapido/Freterapido/docs/img/attention_2.png "#FicaDica ;&#41;")
 
 ----------
 
@@ -37,7 +37,7 @@ Links úteis:
 
 - Agora, configure a nova forma de entrega: System > Settings > Shipping Methods > Frete Rápido (conforme imagem abaixo).
 
-![Configurando o módulo do Frete Rápido](docs/img/extension_settings.PNG "Configurações do módulo")
+![Configurando o módulo do Frete Rápido](app/code/community/Freterapido/Freterapido/docs/img/extension_settings.PNG "Configurações do módulo")
 
 - **Habilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
 - **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido.
@@ -54,14 +54,14 @@ Links úteis:
 
 - As informações sobre o remetente das mercadorias são muito importantes para sabermos qual a origem dos seus fretes. Acesse a área administrativa da sua loja e informe os dados de origem em: System > Settings > Shipping Settings > Origin.
 
-![Sessão de dados da origem](docs/img/origin_settings.PNG "Dados de origem")
+![Sessão de dados da origem](app/code/community/Freterapido/Freterapido/docs/img/origin_settings.PNG "Dados de origem")
 
 > **Obs:** É importante informar todos os campos corretamente.
 
 #### 3. Medidas e Prazo de fabricação:
 - Para calcular o frete precisamos saber as medidas das embalagens de cada produto. Você precisa informá-las em: Catalog > Manage Products > [Selecionar produto] > menu Frete Rápido.
 
-![Configurando as medidas das embalagens dos produtos](docs/img/iten_setting.PNG "Configuração de medidas dos produtos")
+![Configurando as medidas das embalagens dos produtos](app/code/community/Freterapido/Freterapido/docs/img/iten_setting.PNG "Configuração de medidas dos produtos")
 
 > **Atenção:** Considerar as dimensões e peso do produto com a embalagem pronta para envio/postagem.
 > É obrigatório ter o peso configurado em cada produto para que seja possível cotar o frete de forma eficiente. As dimensões podem ficar em branco e neste caso, serão utilizadas as medidas padrões informadas na configuração do plugin, mas é recomendado que cada produto tenha suas configurações próprias de peso e dimensões.
@@ -69,7 +69,7 @@ Links úteis:
 #### 4. Categorias
 - É necessário relacionar cada categoria da sua loja com as categorias do Frete Rápido em: Catalog > Manage Categories > Categoria no Frete Rápido.
 
-![Configuração de categorias ](docs/img/categories_settings.PNG "Configuração de categorias")
+![Configuração de categorias ](app/code/community/Freterapido/Freterapido/docs/img/categories_settings.PNG "Configuração de categorias")
 
 > **Obs:** Nem todas as categorias da sua loja podem coincidir com a relação de categorias do Frete Rápido, mas é possível relacioná-las de forma ampla.
 >
@@ -85,16 +85,16 @@ Links úteis:
 É possível contratar o frete diretamente na área administrativa da loja, no detalhamento do pedido do cliente.
 
 * Abra o pedido (Sales > Orders) e clique no botão **"Ship"**.
-![Caminho para contratar o frete](docs/img/order.png "Detalhamento do pedido")
+![Caminho para contratar o frete](app/code/community/Freterapido/Freterapido/docs/img/order.png "Detalhamento do pedido")
 
 * Você será redirecionado para a tela de confirmação do frete. Após conferir as informações, clique no botão **"Submit Shipment"**
-![Confirmação da contratação do frete](docs/img/confirm_order.PNG "Detalhes do frete")
+![Confirmação da contratação do frete](app/code/community/Freterapido/Freterapido/docs/img/confirm_order.PNG "Detalhes do frete")
 * Neste momento, o Frete Rápido irá solicitar a coleta/despacho dos itens do pedido à transportadora escolhida.
 
 --------
 
 ### Cálculo do frete na página do produto
-![Configurando o bloco de cálculo do frete na página do produto](docs/img/product_page_config.png "Configuração do bloco de cálculo do frete")
+![Configurando o bloco de cálculo do frete na página do produto](app/code/community/Freterapido/Freterapido/docs/img/product_page_config.png "Configuração do bloco de cálculo do frete")
 
 - **Habilitar:** Habilita ou desabilita o bloco de cálculo na página do produto.
 - **Posição de exibição:** Permite escolher a posição do bloco no layout da página do produto (o funcionamento dependerá da disposição do layout). As opções são:
