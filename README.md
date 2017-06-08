@@ -1,5 +1,6 @@
 
-![Frete Rápido - Sistema Inteligente de Gestão Logística](https://freterapido.com/imgs/frete_rapido.png)
+![Frete Rápido - Sistema Inteligente de Gestão Logística](https://freterapido.com/imgs/frete_rapido.png)  
+![https://fr-slack.herokuapp.com](https://fr-slack.herokuapp.com/badge.svg)
 ===
 
 ### **Módulo para plataforma Magento**
