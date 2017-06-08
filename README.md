@@ -5,7 +5,7 @@
         <img src="https://fr-slack.herokuapp.com/badge.svg">
     </a>
 </p>
-===
+<hr>
 
 ### **Módulo para plataforma Magento**
 
