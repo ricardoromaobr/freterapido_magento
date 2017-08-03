@@ -19,6 +19,11 @@ Links úteis:
 - [Painel administrativo][2]
 - [suporte@freterapido.com][3]
 
+
+Idioma: 
+
+[<img src="https://lipis.github.io/flag-icon-css/flags/4x3/br.svg" alt="PT-BR" height="30px" title="Portuguese-BR"/>][6] [<img src="https://lipis.github.io/flag-icon-css/flags/4x3/gb.svg" alt="ENG" height="30px" title="English"/>][7]
+
 ----------
 
 ### Instalação
@@ -26,7 +31,7 @@ Links úteis:
 >**<i class="icon-attention"></i> ATENÇÃO!** Recomendamos que seja feito backup da sua loja antes de realizar qualquer instalação. A instalação desse módulo é de inteira responsabilidade do lojista.
 
 
-- [Baixe aqui a última versão][4],  descompacte o conteúdo do arquivo zip dentro da pasta "app" da sua loja Magento.
+- [Baixe a última versão aqui][4],  descompacte o conteúdo do arquivo zip dentro da pasta "app" da sua loja Magento.
 - Verifique se o arquivo **local.xml** está habilitado na pasta "app/etc" da sua loja Magento. Caso não esteja, é só renomear o arquivo **local.xml.sample** para **local.xml**.
 - Acesse a área administrativa de sua loja e limpe o cache em: Sistema > Gerenciamento de Cache.
 
@@ -140,3 +145,5 @@ Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não
 [3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
 [4]: https://github.com/freterapido/freterapido_magento/archive/master.zip
 [5]: https://github.com/freterapido/freterapido_magento/blob/master/LICENSE
+[6]: https://github.com/freterapido/freterapido_magento/blob/master/README.md
+[7]: https://github.com/freterapido/freterapido_magento/blob/master/README_EN.md
