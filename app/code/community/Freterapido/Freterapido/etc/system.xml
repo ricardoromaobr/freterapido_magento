@@ -56,10 +56,20 @@
                             <show_in_store>1</show_in_store>
                             <comment>Ativa ou desativa o módulo</comment>
                         </active>
+                        <!-- Permite alterar o título padrão do módulo -->
+                        <title>
+                            <label>Título</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Título do módulo que será exibido para o cliente na loja</comment>
+                        </title>
                         <shipper_cnpj translate="label">
                             <label>CNPJ</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>2</sort_order>
+                            <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>

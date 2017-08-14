@@ -84,6 +84,7 @@
                 <free_shipping>0</free_shipping>
                 <free_shipping_minimum_value>0</free_shipping_minimum_value>
                 <model>freterapido/carrier_freterapido</model>
+                <!-- TÍTULO PADRÃO DO MÓDULO-->
                 <title>Opções de entrega</title>
                 <!--  MESSAGES  -->
                 <apierror>Não foi possível se comunicar com o serviço do Frete Rápido</apierror>
