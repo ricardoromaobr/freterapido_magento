@@ -1,4 +1,3 @@
-
 ![Frete Rápido - Sistema Inteligente de Gestão Logística](https://freterapido.com/imgs/frete_rapido.png)
 <p>
     <a href="https://fr-slack.herokuapp.com" target="_blank">
@@ -15,7 +14,7 @@ Compatibilidade com Magento: **1.9.x**
 
 Links úteis:
 
-- [Magento Connect][1]
+- [Magento Marketplace][1]
 - [Painel administrativo][2]
 - [suporte@freterapido.com][3]
 
@@ -141,7 +140,7 @@ Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não
 [MIT][5]
 
 
-[1]: https://www.magentocommerce.com/magento-connect/catalogsearch/result/?q=frete+r%C3%A1pido&pl=0 "Magento Connect"
+[1]: https://marketplace.magento.com/freterapido-frete-rapido.html "Magento Connect"
 [2]: https://freterapido.com/painel/?origin=github_magento "Painel do Frete Rápido"
 [3]: mailto:suporte@freterapido.com "E-mail para a galera super gente fina :)"
 [4]: https://github.com/freterapido/freterapido_magento/archive/master.zip
