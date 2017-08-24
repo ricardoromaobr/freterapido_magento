@@ -9,7 +9,7 @@
 
 ### **Módulo para plataforma Magento**
 
-Versão do módulo: 1.0.9
+Versão do módulo: 1.2.0
 
 Compatibilidade com Magento: **1.9.x**
 
