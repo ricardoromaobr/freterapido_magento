@@ -48,7 +48,7 @@ Is needed setting up somethings on this module to get all usability with API of 
 
 - Now, you need to configure the new Shipping Method in: System > Settings > Shipping Methods > Frete Rápido (as the image below)
 
-![Setting up the Frete Rápido module](https://freterapido.com/dev/imgs/magento_doc_english/fr_module_config.PNG "Configurações do módulo")
+![Setting up the Frete Rápido module](http://freterapido.com/dev/imgs/magento_doc_english/fr_module_config.PNG "Configurações do módulo")
 
 - **Enable:** Choose if you would like enable or disable the module in your store.
 - **Title:** Allows to define a title over results section.
