@@ -12,11 +12,15 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     extends Mage_Shipping_Model_Carrier_Abstract
     implements Mage_Shipping_Model_Carrier_Interface
 {
-    protected $_code = 'freterapido';
+    const CODE = 'freterapido';
+
+    const TITLE = 'Frete Rápido';
+
+    protected $_code = self::CODE;
 
     protected $_result = null;
 
-    protected $_title = 'Frete Rápido';
+    protected $_title = self::TITLE;
 
     protected $_sender = array(
         'cnpj' => null,
@@ -96,10 +100,6 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     public function getAllowedMethods()
     {
         return array($this->_code => $this->_title);
-    }
-
-    public function isTrackingAvailable(){
-        return true;
     }
 
     /**
@@ -197,45 +197,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
      */
     protected function _getQuoteApi()
     {
-        // Dados que serão enviados para a API do Frete Rápido
-        $request_data = array(
-            'remetente' => $this->_sender,
-            'destinatario' => $this->_receiver,
-            'volumes' => $this->_volumes,
-            'tipo_frete' => $this->_freight_type,
-            'token' => $this->_token,
-            'codigo_plataforma' => $this->_platform_code
-        );
-
-        if (!is_null($this->_quote_id))
-            $request_data['cotacao_plataforma'] = $this->_quote_id;
-
-        // Adiciona o filtro caso tenhas sido selecionado
-        if ($this->_filter)
-            $request_data['filtro'] = (int)$this->_filter;
-
-        // Adiciona o limite de ofertas disponíveis caso tenhas sido selecionado
-        if ($this->_limit)
-            $request_data['limite'] = (int)$this->_limit;
-
-        $config = array(
-            'adapter' => 'Zend_Http_Client_Adapter_Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_SSL_VERIFYPEER, false
-            ),
-        );
-
-        // Configura o cliente http passando a URL da API e a configuração
-        $client = new Zend_Http_Client($this->getConfigData('api_simulation_url'), $config);
-
-        // Adiciona os parâmetros à requisição
-        $client->setRawData(json_encode($request_data), 'application/json');
-
-        $this->_log('Realizando cotação...');
-
         // Realiza a chamada POST
-        $response = $client->request('POST');
+        $response = $this->_requestApi();
 
         if ($response->getStatus() != 200) {
             $this->_throwError('apierror', 'Erro ao tentar se comunicar com a API - Code: ' . $response->getStatus() .
@@ -273,6 +236,48 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
             $this->_appendShippingReturn((object) $carrier);
         }
+    }
+
+    protected function _requestApi()
+    {
+        // Dados que serão enviados para a API do Frete Rápido
+        $request_data = array(
+            'remetente' => $this->_sender,
+            'destinatario' => $this->_receiver,
+            'volumes' => $this->_volumes,
+            'tipo_frete' => $this->_freight_type,
+            'token' => $this->_token,
+            'codigo_plataforma' => $this->_platform_code
+        );
+
+        if (!is_null($this->_quote_id))
+            $request_data['cotacao_plataforma'] = $this->_quote_id;
+
+        // Adiciona o filtro caso tenhas sido selecionado
+        if ($this->_filter)
+            $request_data['filtro'] = (int)$this->_filter;
+
+        // Adiciona o limite de ofertas disponíveis caso tenhas sido selecionado
+        if ($this->_limit)
+            $request_data['limite'] = (int)$this->_limit;
+
+        $config = array(
+            'adapter' => 'Zend_Http_Client_Adapter_Curl',
+            'curloptions' => array(
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_SSL_VERIFYPEER, false
+            ),
+        );
+
+        // Configura o cliente http passando a URL da API e a configuração
+        $client = new Zend_Http_Client($this->getConfigData('api_simulation_url'), $config);
+
+        // Adiciona os parâmetros à requisição
+        $client->setRawData(json_encode($request_data), 'application/json');
+
+        $this->_log('Realizando cotação...');
+
+        return $client->request('POST');
     }
 
     /**
@@ -451,6 +456,44 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         return (float)number_format($new_weight, 2);
     }
+
+    // ---- Métodos para verificar o tracking dos pedidos ----
+
+    /**
+     * Verifica se o módulo permite o tracking
+     *
+     * @return bool
+     */
+    public function isTrackingAvailable(){
+        return true;
+    }
+
+    /**
+     * Obtém as informações do tracking
+     *
+     * @param mixed $tracking Tracking
+     *
+     * @return mixed
+     */
+    public function getTrackingInfo($tracking)
+    {
+        $fr_tracking = new Freterapido_Freterapido_Model_Tracking();
+
+        $result = $fr_tracking->getTracking($tracking);
+        if ($result instanceof Mage_Shipping_Model_Tracking_Result) {
+
+            if ($trackings = $result->getAllTrackings()) {
+                return $trackings[0];
+            }
+
+        } elseif (is_string($result) && !empty($result)) {
+            return $result;
+        }
+
+        return false;
+    }
+
+    // ---- Métodos para Log do módulo ----
 
     /**
      * Armazena no log a mensagem informada

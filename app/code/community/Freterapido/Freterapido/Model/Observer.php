@@ -10,6 +10,14 @@
 
 class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 {
+    const CODE = 'freterapido';
+
+    const TITLE = 'Frete Rápido';
+
+    protected $_code = self::CODE;
+
+    protected $_title = self::TITLE;
+
     protected $_sender = array(
         'cnpj' => null,
         'inscricao_estadual' => null,
@@ -25,11 +33,6 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         )
     );
 
-    protected $_carrier = array(
-        'transportadora' => null,
-        'valor' => 0
-    );
-
     protected $_url = null;
 
     protected $_offer = array();
@@ -42,7 +45,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
     public function quote($observer)
     {
-        $active = (boolean) Mage::getStoreConfig('carriers/freterapido/active');
+        $active = (boolean) Mage::helper($this->_code)->getConfigData('active');
 
         // Se o módulo não estiver ativo, ignora a contratação pelo Frete Rápido
         if (!$active)
@@ -53,7 +56,6 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $_order = $_shipment->getOrder();
 
         try {
-
             $this->_increment_id =  $_order->getIncrementId();
 
             // O magento connect não permite verificar direto no método
@@ -84,8 +86,8 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
             $this->_getOffer($_order->getShippingMethod());
 
-            $this->_url = sprintf(Mage::getStoreConfig('carriers/freterapido/api_quote_url'),
-                $this->_offer['token'], $this->_offer['code'], Mage::getStoreConfig('carriers/freterapido/token')
+            $this->_url = sprintf(Mage::helper($this->_code)->getConfigData('api_quote_url'),
+                $this->_offer['token'], $this->_offer['code'], Mage::helper($this->_code)->getConfigData('token')
             );
 
             $this->_doHire();
@@ -172,7 +174,6 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
             'token' => $method[$last_index - 1],
             'code' => $method[$last_index]
         );
-
     }
 
     /**
@@ -206,8 +207,6 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         // Realiza a chamada POST
         $response = $client->request('POST');
 
-        Mage::Log($response, null, 'quote.log', true);
-
         if ($response->getStatus() != 200) {
             $_message = $response->getStatus() == 422 ? $response->getBody() : $response->getMessage();
 
@@ -226,10 +225,13 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
      */
     protected function _addTracking($shipment)
     {
+        $shipping_method = explode('-', $shipment->getOrder()->getShippingDescription());
+        $carrier = empty(trim($shipping_method[0])) ? $this->_title : trim($shipping_method[0]);
+
         $track = Mage::getModel('sales/order_shipment_track')
             ->setNumber($this->_track_id) //tracking number / awb number
-            ->setCarrierCode('custom') //carrier code
-            ->setTitle('Frete Rápido'); //carrier title
+            ->setCarrierCode($this->_code) //carrier code
+            ->setTitle($carrier); //carrier title
 
         $shipment->addTrack($track);
     }
