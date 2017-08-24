@@ -11,7 +11,8 @@
 ### **Magento Platform Module**
 
 Version: **1.2.0**
-Compatibility: **1.9.x**
+
+Magento compatibility: **1.9.x**
 
 Useful links:
 
