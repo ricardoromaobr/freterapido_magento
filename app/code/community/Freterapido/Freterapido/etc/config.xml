@@ -94,6 +94,7 @@
                 <default_height>50</default_height>
                 <default_width>50</default_width>
                 <default_length>50</default_length>
+                <limit>5</limit>
 
                 <!-- CONFIGURATION -->
                 <weight_type>kg</weight_type>
