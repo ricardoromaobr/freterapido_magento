@@ -16,7 +16,7 @@ Magento compatibility: **1.9.x**
 
 Useful links:
 
-- [Magento Connect][1]
+- [Magento Marketplace][1]
 - [Administrative Panel][2]
 - [support@freterapido.com][3]
 
@@ -143,7 +143,7 @@ Did you find any bug? Do you have any improvements suggestions? Great! Don't be 
 [MIT][5]
 
 
-[1]: https://www.magentocommerce.com/magento-connect/catalogsearch/result/?q=frete+r%C3%A1pido&pl=0 "Magento Connect"
+[1]: https://marketplace.magento.com/freterapido-frete-rapido.html "Magento Connect"
 [2]: https://freterapido.com/painel/?origin=github_magento "Painel do Frete Rápido"
 [3]: mailto:support@freterapido.com ":)"
 [4]: https://github.com/freterapido/freterapido_magento/archive/master.zip
