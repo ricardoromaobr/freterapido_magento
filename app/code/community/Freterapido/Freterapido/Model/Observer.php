@@ -225,8 +225,10 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
      */
     protected function _addTracking($shipment)
     {
-        $shipping_method = explode('-', $shipment->getOrder()->getShippingDescription());
-        $carrier = empty(trim($shipping_method[0])) ? $this->_title : trim($shipping_method[0]);
+        $_shipping_method = explode('-', $shipment->getOrder()->getShippingDescription());
+        $shipping_method = trim($_shipping_method[0]);
+
+        $carrier = empty($shipping_method) ? $this->_title : $shipping_method;
 
         $track = Mage::getModel('sales/order_shipment_track')
             ->setNumber($this->_track_id) //tracking number / awb number
