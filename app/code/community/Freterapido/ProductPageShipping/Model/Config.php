@@ -136,8 +136,8 @@ class Freterapido_ProductPageShipping_Model_Config
     {
         return Mage::getStoreConfig(self::XML_PATH_DISPLAY_POSITION);
     }
-    
-    
+
+
     /**
      * Retieve display positioning logic flag
      *
@@ -147,9 +147,9 @@ class Freterapido_ProductPageShipping_Model_Config
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_DISPLAY_POSITION_FLAG);
     }
-    
+
     /**
-     * Retieve display positioning block, 
+     * Retieve display positioning block,
      * e.g. related sibling element for positioning
      *
      * @return string
@@ -158,10 +158,10 @@ class Freterapido_ProductPageShipping_Model_Config
     {
         return Mage::getStoreConfig(self::XML_PATH_DISPLAY_POSITION_BLOCK);
     }
-    
+
     /**
      * Returns position source model
-     * 
+     *
      * @return Freterapido_ProductPageShipping_Model_Config_Source_Position
      */
     public function getPositionSource()

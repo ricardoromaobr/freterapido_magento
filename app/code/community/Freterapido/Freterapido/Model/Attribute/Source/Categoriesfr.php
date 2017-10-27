@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category Freterapido
  * @package Freterapido_Freterapido
@@ -6,12 +7,13 @@
  * @copyright Frete Rápido (https://freterapido.com)
  * @license https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
  */
-
 class Freterapido_Freterapido_Model_Source_Categoriesfr extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     protected $_options = null;
-    public function getAllOptions($withEmpty = false){
-        if (is_null($this->_options)){
+
+    public function getAllOptions($withEmpty = false)
+    {
+        if (is_null($this->_options)) {
             $this->_options = array();
 
             $this->_options[] = array('label' => 'Abrasivos', 'value' => 1);

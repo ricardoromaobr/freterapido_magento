@@ -18,7 +18,7 @@ class Freterapido_ProductPageShipping_Model_Config_Source_Position_Flag
 {
     /**
      * Returns after flag values for insert method
-     * 
+     *
      * @return array
      */
     public function toOptionArray()
