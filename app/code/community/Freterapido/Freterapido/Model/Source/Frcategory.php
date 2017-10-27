@@ -7,12 +7,13 @@
 * @copyright Frete Rápido (https://freterapido.com)
 * @license https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
 */
-
 class Freterapido_Freterapido_Model_Source_Frcategory extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     protected $_options = null;
-    public function getAllOptions($withEmpty = false){
-        if (is_null($this->_options)){
+
+    public function getAllOptions($withEmpty = false)
+    {
+        if (is_null($this->_options)) {
             $this->_options = array();
 
             $this->_options[] = array('label' => 'Abrasivos', 'value' => 1);
@@ -89,14 +90,17 @@ class Freterapido_Freterapido_Model_Source_Frcategory extends Mage_Eav_Model_Ent
             $this->_options[] = array('label' => 'Vestuário', 'value' => 60);
             $this->_options[] = array('label' => 'Vidros / Frágil', 'value' => 61);
             $this->_options[] = array('label' => 'Outros', 'value' => 999);
-            $options = $this->_options;
         }
+
         $options = $this->_options;
+
         if ($withEmpty) {
             array_unshift($options, array('value'=>'', 'label'=>'-- Selecione --'));
         }
+
         return $options;
     }
+
     public function getOptionText($value)
     {
         $options = $this->getAllOptions(false);
@@ -106,6 +110,7 @@ class Freterapido_Freterapido_Model_Source_Frcategory extends Mage_Eav_Model_Ent
                 return $item['label'];
             }
         }
+
         return false;
     }
 }

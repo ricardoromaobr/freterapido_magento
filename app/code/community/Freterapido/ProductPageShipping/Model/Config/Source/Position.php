@@ -18,28 +18,28 @@ class Freterapido_ProductPageShipping_Model_Config_Source_Position
 {
     /**
      * Shipping Estimator Positions Map
-     * 
+     *
      * @var Varien_Object
      */
     protected static $_positions = null;
-    
+
     /**
      * Returns list of possible options
-     * 
-     * @return Varien_Object 
+     *
+     * @return Varien_Object
      */
     public static function getPositions()
     {
         if (self::$_positions === null) {
             self::_initPositions();
         }
-        
+
         return self::$_positions;
     }
-    
+
     /**
      * Initializes possible positions for shipping estimator
-     * 
+     *
      */
     protected static function _initPositions()
     {
@@ -61,15 +61,15 @@ class Freterapido_ProductPageShipping_Model_Config_Source_Position
                 'handle' => Freterapido_ProductPageShipping_Model_Config::LAYOUT_HANDLE_CUSTOM
             )
         ));
-        
+
         Mage::dispatchEvent('freterapido_productpageshipping_config_source_position_init', array('positions' => $positions));
-        
+
         self::$_positions = $positions;
     }
-    
+
     /**
      * Returns layout handle name for a shipping estimator position
-     * 
+     *
      * @param string $position
      * @return string
      */
@@ -78,10 +78,10 @@ class Freterapido_ProductPageShipping_Model_Config_Source_Position
         if (($handle = self::getPositions()->getData($position . '/handle'))) {
             return $handle;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Return list of options for the system configuration field.
      * These options indicate the position of the form block on the page
@@ -91,16 +91,14 @@ class Freterapido_ProductPageShipping_Model_Config_Source_Position
     public function toOptionArray()
     {
         $options = array();
-        
+
         foreach (array_keys(self::getPositions()->getData()) as $position) {
             $options[] = array(
-                'value' => $position, 
+                'value' => $position,
                 'label' => self::getPositions()->getData($position . '/label')
             );
         }
-        
+
         return $options;
     }
-    
-    
 }

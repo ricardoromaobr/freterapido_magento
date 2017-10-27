@@ -23,14 +23,12 @@ abstract class Freterapido_ProductPageShipping_Block_Estimate_Abstract extends M
      */
     protected $_estimate = null;
 
-
     /**
      * Config model
      *
      * @var Freterapido_ProductPageShipping_Model_Config
      */
     protected $_config = null;
-
 
     /**
      * Module session model

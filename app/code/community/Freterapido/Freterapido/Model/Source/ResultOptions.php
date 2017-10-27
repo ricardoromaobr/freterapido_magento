@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This source file is subject to the MIT License.
  * It is also available through http://opensource.org/licenses/MIT
@@ -11,7 +12,6 @@
  */
 class Freterapido_Freterapido_Model_Source_ResultOptions
 {
-
     /**
      * Get options for weight
      *

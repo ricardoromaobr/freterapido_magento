@@ -25,7 +25,7 @@ class Freterapido_ProductPageShipping_Helper_Data extends Mage_Core_Helper_Abstr
     {
         return Mage::getSingleton('freterapido_productpageshipping/config');
     }
-    
+
     /**
      * Retieve display positioning logic flag
      *
@@ -35,9 +35,9 @@ class Freterapido_ProductPageShipping_Helper_Data extends Mage_Core_Helper_Abstr
     {
         return $this->_getConfig()->getDisplayPositionFlag();
     }
-    
+
     /**
-     * Retieve display positioning block, 
+     * Retieve display positioning block,
      * e.g. related sibling element for positioning
      *
      * @return string
@@ -46,5 +46,4 @@ class Freterapido_ProductPageShipping_Helper_Data extends Mage_Core_Helper_Abstr
     {
         return $this->_getConfig()->getDisplayPositionBlock();
     }
-    
 }

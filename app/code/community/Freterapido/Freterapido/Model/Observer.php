@@ -7,7 +7,6 @@
  * @copyright Frete Rápido (https://freterapido.com)
  * @license https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
  */
-
 class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 {
     const CODE = 'freterapido';
@@ -48,8 +47,9 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $active = (boolean) Mage::helper($this->_code)->getConfigData('active');
 
         // Se o módulo não estiver ativo, ignora a contratação pelo Frete Rápido
-        if (!$active)
+        if (!$active) {
             return false;
+        }
 
         $_shipment = $observer->getEvent()->getShipment();
 
@@ -65,16 +65,15 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
             // Verifica se o checkout foi feito com o usuário logado ou não, pois a forma de obter o cnpj/cpf é diferente em cada caso
             if (!empty($_customer_id)) {
                 $_cnpj_cpf = Mage::getModel('customer/customer')->load($_customer_id)->getData('taxvat');
-
             } elseif (!empty($_vat_id)) {
                 $_cnpj_cpf = $_vat_id;
-
             } else {
                 $_cnpj_cpf = $_order->getData('customer_taxvat');
             }
 
-            if (empty($_cnpj_cpf))
+            if (empty($_cnpj_cpf)) {
                 throw new Exception('O CNPJ/CPF do destinatário não foi informado.');
+            }
 
             $_cnpj_cpf = preg_replace("/\D/", '', $_cnpj_cpf);
 
@@ -86,8 +85,11 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
             $this->_getOffer($_order->getShippingMethod());
 
-            $this->_url = sprintf(Mage::helper($this->_code)->getConfigData('api_quote_url'),
-                $this->_offer['token'], $this->_offer['code'], Mage::helper($this->_code)->getConfigData('token')
+            $this->_url = sprintf(
+                Mage::helper($this->_code)->getConfigData('api_quote_url'),
+                $this->_offer['token'],
+                $this->_offer['code'],
+                Mage::helper($this->_code)->getConfigData('token')
             );
 
             $this->_doHire();
@@ -112,7 +114,6 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
             $this->_sender = array();
             $this->_sender['cnpj'] = Mage::getStoreConfig('carriers/freterapido/shipper_cnpj');
-
         } catch (Exception $e) {
             $this->_throwError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
         }
@@ -125,9 +126,9 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
     protected function _getReceiver($order, $cnpj_cpf)
     {
         try {
-            $name = $order->getShippingAddress()->getFirstname() .
-                ' ' .
-                $order->getShippingAddress()->getLastname();
+            $name = $order->getShippingAddress()->getFirstname()
+                .' '
+                .$order->getShippingAddress()->getLastname();
 
             $this->_receiver = array();
             $this->_receiver['cnpj_cpf'] = preg_replace("/\D/", '', $cnpj_cpf);
@@ -137,7 +138,6 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
             $this->_receiver['endereco']['cep'] = $this->_formatZipCode($order->getShippingAddress()->getPostcode());
             $this->_receiver['endereco']['rua'] = $order->getShippingAddress()->getData('street');
-
         } catch (Exception $e) {
             $this->_throwError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
         }
@@ -154,7 +154,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $new_zipcode = preg_replace("/\D/", '', trim($zipcode));
 
         if (strlen($new_zipcode) !== 8) {
-           throw new Exception('O CEP digitado é inválido');
+            throw new Exception('O CEP digitado é inválido');
         }
 
         return $new_zipcode;
@@ -247,7 +247,6 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
     {
         Mage::log('Frete Rápido: ' . $mensagem);
     }
-
 
     /**
      * Armazena no log a mensagem informada

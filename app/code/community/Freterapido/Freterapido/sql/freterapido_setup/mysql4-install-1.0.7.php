@@ -7,8 +7,6 @@
  * @copyright Frete Rápido (https://freterapido.com)
  * @license https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
 */
-
-
 $installer = $this;
 
 $setup = new Mage_Eav_Model_Entity_Setup('core_setup');
@@ -86,16 +84,14 @@ $attributes = array(
     'fr_volume_prazo_fabricacao'
 );
 
-foreach ( $setIds as $setId ) {
-
+foreach ($setIds as $setId) {
     $setup->addAttributeGroup('catalog_product', $setId, 'Frete Rápido', 2);
     $groupId = $setup->getAttributeGroupId('catalog_product', $setId, 'Frete Rápido');
 
-    foreach ( $attributes as $attribute ) {
+    foreach ($attributes as $attribute) {
         $attributeId = $setup->getAttributeId('catalog_product', $attribute);
         $setup->addAttributeToGroup('catalog_product', $setId, $groupId, $attributeId);
     }
-
 }
 
 $installer->endSetup();

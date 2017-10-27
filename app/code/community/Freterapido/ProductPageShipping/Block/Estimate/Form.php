@@ -45,6 +45,7 @@ class Freterapido_ProductPageShipping_Block_Estimate_Form extends Freterapido_Pr
     public function getFieldValue($fieldName)
     {
         $values = $this->getSession()->getFormValues();
+
         if (isset($values[$fieldName])) {
             return $values[$fieldName];
         }
@@ -110,8 +111,7 @@ class Freterapido_ProductPageShipping_Block_Estimate_Form extends Freterapido_Pr
      */
     public function useShoppingCart()
     {
-        if ($this->getSession()->getFormValues() === null ||
-            !$this->isFieldVisible('cart')) {
+        if ($this->getSession()->getFormValues() === null || !$this->isFieldVisible('cart')) {
             return $this->getConfig()->useCartDefault();
         }
 

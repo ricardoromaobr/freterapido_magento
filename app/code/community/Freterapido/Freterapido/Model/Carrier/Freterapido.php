@@ -7,10 +7,7 @@
  * @copyright Frete Rápido (https://freterapido.com)
  * @license https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
  */
-
-class Freterapido_Freterapido_Model_Carrier_Freterapido
-    extends Mage_Shipping_Model_Carrier_Abstract
-    implements Mage_Shipping_Model_Carrier_Interface
+class Freterapido_Freterapido_Model_Carrier_Freterapido extends Mage_Shipping_Model_Carrier_Abstract implements Mage_Shipping_Model_Carrier_Interface
 {
     const CODE = 'freterapido';
 
@@ -64,7 +61,6 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     // Função chamada pelo Magento para calcular frete
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-
         try {
             // Realiza a checagem inicial
             if (!$this->_initialCheck($request)) {
@@ -91,7 +87,6 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
             // Retorna o XML com o resultado para o Magento.
             return $this->_result;
-
         } catch (Exception $e) {
             $this->_throwError('apierror', $e->getMessage() . ' - [' . __LINE__ . '] ' . $e->getFile());
         }
@@ -123,8 +118,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             return false;
         }
 
-        if (!$this->_checkZipCode($request))
+        if (!$this->_checkZipCode($request)) {
             return false;
+        }
 
         return true;
     }
@@ -216,8 +212,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         $this->_offer_token = $response['token_oferta'];
 
         // Se não retornar nenhuma transportadora na chamada, retorna o resultado vazio
-        if (empty($this->_carriers))
+        if (empty($this->_carriers)) {
             return $this->_result;
+        }
 
         // Separa as colunas de preço e prazo para realizar a ordenação
         $price_column = array_column($this->_carriers, 'preco_frete');
@@ -227,12 +224,14 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
         array_multisort($price_column, SORT_ASC, $deadline_column, SORT_ASC, $this->_carriers);
 
         // Se estiver marcada a opção de 'Frete Grátis' na configuração, altera o frete mais barato para 'Frete Grátis'
-        if (!empty($this->_carriers[0]) && $this->_free_shipping && $this->_free_shipping_minimum < $this->_products_total_value)
+        if (!empty($this->_carriers[0]) && $this->_free_shipping && $this->_free_shipping_minimum < $this->_products_total_value) {
             $this->_carriers[0]['preco_frete'] = 0;
+        }
 
         foreach ($this->_carriers as $key => $carrier) {
-            if (empty($carrier))
+            if (empty($carrier)) {
                 continue;
+            }
 
             $this->_appendShippingReturn((object) $carrier);
         }
@@ -250,16 +249,19 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
             'codigo_plataforma' => $this->_platform_code
         );
 
-        if (!is_null($this->_quote_id))
+        if (!is_null($this->_quote_id)) {
             $request_data['cotacao_plataforma'] = $this->_quote_id;
+        }
 
         // Adiciona o filtro caso tenhas sido selecionado
-        if ($this->_filter)
+        if ($this->_filter) {
             $request_data['filtro'] = (int)$this->_filter;
+        }
 
         // Adiciona o limite de ofertas disponíveis caso tenhas sido selecionado
-        if ($this->_limit)
+        if ($this->_limit) {
             $request_data['limite'] = (int)$this->_limit;
+        }
 
         $config = array(
             'adapter' => 'Zend_Http_Client_Adapter_Curl',
@@ -287,8 +289,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
      */
     protected function _appendShippingReturn($carrier)
     {
-        if (strtolower($carrier->nome) == 'correios')
+        if (strtolower($carrier->nome) == 'correios') {
             $carrier->nome = strtoupper($carrier->nome . ' - ' . $carrier->servico);
+        }
 
         // Seta o nome do método
         $shipping_method = $this->_offer_token . '_' . $carrier->oferta;
@@ -304,11 +307,16 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         $deadline_msg = $deadline > 1 ? 'dias úteis' : 'dia útil';
 
-        if (0 == $carrier->preco_frete)
+        if (0 == $carrier->preco_frete) {
             $carrier->nome = 'FRETE GRÁTIS';
+        }
 
-        $method->setMethodTitle(sprintf($this->getConfigData('msgprazo'),
-            $carrier->nome, $deadline, $deadline_msg));
+        $method->setMethodTitle(sprintf(
+            $this->getConfigData('msgprazo'),
+            $carrier->nome,
+            $deadline,
+            $deadline_msg
+        ));
 
         // Diz ao Magento qual será o valor do frete
         $method->setPrice($carrier->preco_frete);
@@ -327,7 +335,6 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
     protected function _getVolumes(Mage_Shipping_Model_Rate_Request $request)
     {
         foreach ($request->getAllItems() as $item) {
-
             $sku = $item->getProduct()->getSku();
 
             // O mesmo produto pode ter item pai e item filho. Neste caso, no item pai não existe informações sobre as medidas e
@@ -375,7 +382,6 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
                 if (!$item->hasChild()) {
                     $this->_getFrFields($item, $sku);
                 }
-
             } else {
                 $this->_getFrFields($item, $sku);
             }
@@ -401,7 +407,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         if (!empty($_fr_volume_altura)) {
             $height = $_fr_volume_altura;
-        } elseif (!empty($_generic_height)){
+        } elseif (!empty($_generic_height)) {
             $height = $_generic_height;
         } else {
             $height = $this->getConfigData('default_height');
@@ -412,7 +418,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         if (!empty($fr_volume_largura)) {
             $width = $fr_volume_largura;
-        } elseif (!empty($_generic_width)){
+        } elseif (!empty($_generic_width)) {
             $width = $_generic_width;
         } else {
             $width = $this->getConfigData('default_width');
@@ -423,7 +429,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         if (!empty($_fr_volume_comprimento)) {
             $length = $_fr_volume_comprimento;
-        } elseif (!empty($_generic_length)){
+        } elseif (!empty($_generic_length)) {
             $length = $_generic_length;
         } else {
             $length = $this->getConfigData('default_length');
@@ -431,8 +437,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         $_fr_volume_prazo_fabricacao = $product_child->getData('fr_volume_prazo_fabricacao');
 
-        if (!empty($_fr_volume_prazo_fabricacao) && $_fr_volume_prazo_fabricacao > $this->_manufacturing_time)
+        if (!empty($_fr_volume_prazo_fabricacao) && $_fr_volume_prazo_fabricacao > $this->_manufacturing_time) {
             $this->_manufacturing_time = $product_child->getData('fr_volume_prazo_fabricacao');
+        }
 
         $this->_volumes[$sku]['sku'] = $sku;
         $this->_volumes[$sku]['altura'] = (float)$height / 100; // Converte para metros
@@ -464,7 +471,8 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
      *
      * @return bool
      */
-    public function isTrackingAvailable(){
+    public function isTrackingAvailable()
+    {
         return true;
     }
 
@@ -481,11 +489,9 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
 
         $result = $fr_tracking->getTracking($tracking);
         if ($result instanceof Mage_Shipping_Model_Tracking_Result) {
-
             if ($trackings = $result->getAllTrackings()) {
                 return $trackings[0];
             }
-
         } elseif (is_string($result) && !empty($result)) {
             return $result;
         }
@@ -513,7 +519,6 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido
      */
     protected function _throwError($message, $log = null)
     {
-
         $this->_result = null;
         $this->_result = Mage::getModel('shipping/rate_result');
 

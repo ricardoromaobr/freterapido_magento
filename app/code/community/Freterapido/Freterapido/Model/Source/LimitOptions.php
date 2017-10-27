@@ -7,7 +7,6 @@
  * @copyright Frete Rápido (https://freterapido.com)
  * @license https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
  */
-
 class Freterapido_Freterapido_Model_Source_LimitOptions
 {
     /**
@@ -17,7 +16,6 @@ class Freterapido_Freterapido_Model_Source_LimitOptions
      */
     public function toOptionArray()
     {
-
         $array = array();
 
         foreach (range(1, 20) as $number) {
@@ -25,6 +23,5 @@ class Freterapido_Freterapido_Model_Source_LimitOptions
         }
 
         return $array;
-
     }
 }

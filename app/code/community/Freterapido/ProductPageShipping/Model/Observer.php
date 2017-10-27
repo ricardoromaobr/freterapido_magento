@@ -48,9 +48,11 @@ class Freterapido_ProductPageShipping_Model_Observer
         /* @var $controllerAction Mage_Core_Controller_Varien_Action */
         $controllerAction = $observer->getEvent()->getAction();
         $fullActionName = $controllerAction->getFullActionName();
+
         if ($this->getConfig()->isEnabled() && in_array($fullActionName, $this->getConfig()->getControllerActions())) {
             $position = $this->getConfig()->getDisplayPosition();
             $layoutHandle = $this->getConfig()->getPositionSource()->getLayoutHandleName($position);
+
             if ($layoutHandle) {
                 // Apply shipping estimator position layout handle
                 $controllerAction->getLayout()->getUpdate()->addHandle(

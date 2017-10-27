@@ -7,7 +7,6 @@
  * @copyright Frete Rápido (https://freterapido.com)
  * @license https://github.com/freterapido/freterapido_magento/blob/master/LICENSE MIT
  */
-
 class Freterapido_Freterapido_Model_Tracking
 {
     const CODE = 'freterapido';
@@ -72,11 +71,9 @@ class Freterapido_Freterapido_Model_Tracking
                 // Seta os status do tracking para retornar no front
                 $tracking = $this->_setTrackingProgress($progress);
                 $this->_result->append($tracking);
-
             } else {
                 throw new Exception('Nenhuma ocorrência foi encontrada para o frete ' . $this->_tracking_number);
             }
-
         } catch (Exception $e) {
             $this->_log($e->getMessage());
             $this->_result->append($error);
@@ -124,8 +121,9 @@ class Freterapido_Freterapido_Model_Tracking
     {
         $progress = array();
 
-        if (empty($occurrences))
+        if (empty($occurrences)) {
             return false;
+        }
 
         foreach ($occurrences as $occurrence) {
             $date = new DateTime($occurrence->data_ocorrencia);

@@ -32,6 +32,7 @@ class Freterapido_ProductPageShipping_EstimateController extends Mage_Catalog_Pr
         $product = $this->_initProduct();
         $this->loadLayout(false);
         $block = $this->getLayout()->getBlock('shipping.estimate.result');
+
         if ($block) {
             $estimate = $block->getEstimate();
             $product->setAddToCartInfo((array) $this->getRequest()->getPost());
@@ -39,6 +40,7 @@ class Freterapido_ProductPageShipping_EstimateController extends Mage_Catalog_Pr
             $addressInfo = $this->getRequest()->getPost('estimate');
             $estimate->setAddressInfo((array) $addressInfo);
             $block->getSession()->setFormValues($addressInfo);
+
             try {
                 $estimate->estimate();
             } catch (Mage_Core_Exception $e) {
@@ -50,6 +52,7 @@ class Freterapido_ProductPageShipping_EstimateController extends Mage_Catalog_Pr
                 );
             }
         }
+
         $this->_initLayoutMessages('catalog/session');
         $this->renderLayout();
     }
