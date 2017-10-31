@@ -23,7 +23,14 @@ Idioma:
 
 [<img src="https://lipis.github.io/flag-icon-css/flags/4x3/br.svg" alt="PT-BR" height="30px" title="Portuguese-BR"/>][6] [<img src="https://lipis.github.io/flag-icon-css/flags/4x3/gb.svg" alt="ENG" height="30px" title="English"/>][7]
 
-----------
+-------------
+
+### IMPORTANTE
+A Frete Rápido não mantem e/ou oferece suporte para a integração com o **Magento**, apenas disponibilizamos um módulo de integração padrão que atente a maioria dos e-commerces que utilizam esta plataforma.
+
+Para qualquer modificação no módulo baseada no modelo de negócio do seu e-commerce, nós disponibilizamos aqui o código fonte do módulo integrado a [API do Frete Rápido][9] e aqui [neste link][8] você encontra a documentação de integrações e modificações do **Magento**.
+
+--------------
 
 ### Instalação
 
@@ -147,3 +154,5 @@ Encontrou algum bug ou tem sugestões de melhorias no código? Sensacional! Não
 [5]: https://github.com/freterapido/freterapido_magento/blob/master/LICENSE
 [6]: https://github.com/freterapido/freterapido_magento/blob/master/README.md
 [7]: https://github.com/freterapido/freterapido_magento/blob/master/README_EN.md
+[8]: http://docs.opencart.com/developer/module/
+[9]: https://www.freterapido.com/dev/
