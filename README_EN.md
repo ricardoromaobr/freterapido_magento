@@ -158,4 +158,4 @@ Did you find any bug? Do you have any improvements suggestions? Great! Don't be 
 [6]: https://github.com/freterapido/freterapido_magento/blob/master/README.md
 [7]: https://github.com/freterapido/freterapido_magento/blob/master/README_EN.md
 [8]: http://devdocs.magento.com/
-[9]: https://dev.freterapido.com/
+[9]: https://freterapido.com/dev/
