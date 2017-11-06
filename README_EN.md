@@ -29,7 +29,7 @@ Language:
 ### IMPORTANT
 Frete Rápido does not support integration with **Magento**, we only provide a standard integration module that caters to most e-commerces that use this platform.
 
-For any modification to this module based on business model of your e-commerce, we hereby make available the source code of our integrated module [Frete Rápido API] [9] and here [here] [8] you will find the documentation for integration and modifications of **magento**.
+For any modification to this module based on business model of your e-commerce, we hereby make available the source code of our integrated module [Frete Rápido API][9] and here [here][8] you will find the documentation for integration and modifications of **magento**.
 
 ----------
 
