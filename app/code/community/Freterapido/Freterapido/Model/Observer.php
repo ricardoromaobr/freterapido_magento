@@ -17,24 +17,24 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
     protected $_title = self::TITLE;
 
-    protected $_sender = [
+    protected $_sender = array(
         'cnpj' => null,
         'inscricao_estadual' => null,
-        'endereco' => [
+        'endereco' => array(
             'cep' => null
-        ]
-    ];
+        )
+    );
 
-    protected $_receiver = [
+    protected $_receiver = array(
         'tipo_pessoa' => 1,
-        'endereco' => [
+        'endereco' => array(
             'cep' => null
-        ]
-    ];
+        )
+    );
 
     protected $_url = null;
 
-    protected $_offer = [];
+    protected $_offer = array();
 
     protected $_increment_id = null;
 
@@ -117,7 +117,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         try {
             Mage::getStoreConfig('shipping/origin', $this->getStore());
 
-            $this->_sender = [];
+            $this->_sender = array();
             $this->_sender['cnpj'] = Mage::getStoreConfig('carriers/freterapido/shipper_cnpj');
         } catch (Exception $e) {
             $this->_throwError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
@@ -135,7 +135,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
                 . ' '
                 . $order->getShippingAddress()->getLastname();
 
-            $this->_receiver = [];
+            $this->_receiver = array();
             $this->_receiver['cnpj_cpf'] = preg_replace("/\D/", '', $cnpj_cpf);
             $this->_receiver['nome'] = $name;
             $this->_receiver['email'] = $order->getShippingAddress()->getEmail();
@@ -175,10 +175,10 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $method = explode('_', $shipping_method);
         $last_index = count($method) - 1;
 
-        $this->_offer = [
+        $this->_offer = array(
             'token' => $method[$last_index - 1],
             'code' => $method[$last_index]
-        ];
+        );
     }
 
     /**
@@ -189,19 +189,19 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
     protected function _doHire()
     {
         // Dados que serão enviados para a API do Frete Rápido
-        $request_data = [
+        $request_data = array(
             'numero_pedido' => $this->_increment_id,
             'remetente' => $this->_sender,
             'destinatario' => $this->_receiver,
-        ];
+        );
 
-        $config = [
+        $config = array(
             'adapter' => 'Zend_Http_Client_Adapter_Curl',
-            'curloptions' => [
+            'curloptions' => array(
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_SSL_VERIFYPEER, false
-            ],
-        ];
+            ),
+        );
 
         // Configura o cliente http passando a URL da API e a configuração
         $client = new Zend_Http_Client($this->_url, $config);
