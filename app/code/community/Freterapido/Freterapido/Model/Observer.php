@@ -17,24 +17,24 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
     protected $_title = self::TITLE;
 
-    protected $_sender = array(
+    protected $_sender = [
         'cnpj' => null,
         'inscricao_estadual' => null,
-        'endereco' => array(
+        'endereco' => [
             'cep' => null
-        )
-    );
+        ]
+    ];
 
-    protected $_receiver = array(
+    protected $_receiver = [
         'tipo_pessoa' => 1,
-        'endereco' => array(
+        'endereco' => [
             'cep' => null
-        )
-    );
+        ]
+    ];
 
     protected $_url = null;
 
-    protected $_offer = array();
+    protected $_offer = [];
 
     protected $_increment_id = null;
 
@@ -55,8 +55,13 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
 
         $_order = $_shipment->getOrder();
 
+        // If order shipping method isn't ours, ignore it
+        if (strpos($_order->getShippingMethod(), 'freterapido') === false) {
+            return false;
+        }
+
         try {
-            $this->_increment_id =  $_order->getIncrementId();
+            $this->_increment_id = $_order->getIncrementId();
 
             // O magento connect não permite verificar direto no método
             $_customer_id = $_shipment->getCustomerId();
@@ -112,7 +117,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         try {
             Mage::getStoreConfig('shipping/origin', $this->getStore());
 
-            $this->_sender = array();
+            $this->_sender = [];
             $this->_sender['cnpj'] = Mage::getStoreConfig('carriers/freterapido/shipper_cnpj');
         } catch (Exception $e) {
             $this->_throwError('Erro ao tentar obter os dados de origem. Erro: ' . $e->getMessage());
@@ -120,17 +125,17 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @param Mage_Shipping_Model_Rate_Request $request
+     * @param  Mage_Shipping_Model_Rate_Request $request
      * @return bool
      */
     protected function _getReceiver($order, $cnpj_cpf)
     {
         try {
             $name = $order->getShippingAddress()->getFirstname()
-                .' '
-                .$order->getShippingAddress()->getLastname();
+                . ' '
+                . $order->getShippingAddress()->getLastname();
 
-            $this->_receiver = array();
+            $this->_receiver = [];
             $this->_receiver['cnpj_cpf'] = preg_replace("/\D/", '', $cnpj_cpf);
             $this->_receiver['nome'] = $name;
             $this->_receiver['email'] = $order->getShippingAddress()->getEmail();
@@ -146,7 +151,7 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Formata e valida o CEP informado
      *
-     * @param string $zipcode
+     * @param  string         $zipcode
      * @return boolean|string
      */
     protected function _formatZipCode($zipcode)
@@ -170,10 +175,10 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
         $method = explode('_', $shipping_method);
         $last_index = count($method) - 1;
 
-        $this->_offer = array(
+        $this->_offer = [
             'token' => $method[$last_index - 1],
             'code' => $method[$last_index]
-        );
+        ];
     }
 
     /**
@@ -184,19 +189,19 @@ class Freterapido_Freterapido_Model_Observer extends Mage_Core_Model_Abstract
     protected function _doHire()
     {
         // Dados que serão enviados para a API do Frete Rápido
-        $request_data = array(
+        $request_data = [
             'numero_pedido' => $this->_increment_id,
             'remetente' => $this->_sender,
             'destinatario' => $this->_receiver,
-        );
+        ];
 
-        $config = array(
+        $config = [
             'adapter' => 'Zend_Http_Client_Adapter_Curl',
-            'curloptions' => array(
+            'curloptions' => [
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_SSL_VERIFYPEER, false
-            ),
-        );
+            ],
+        ];
 
         // Configura o cliente http passando a URL da API e a configuração
         $client = new Zend_Http_Client($this->_url, $config);
