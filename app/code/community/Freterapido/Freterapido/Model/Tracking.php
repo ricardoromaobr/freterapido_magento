@@ -64,7 +64,7 @@ class Freterapido_Freterapido_Model_Tracking
             // Lista dos status do frete
             $occurrences = json_decode($response->getBody());
 
-            // Obtém os status do frete no padrão do MAgento
+            // Obtém os status do frete no padrão do Magento
             $progress = $this->_getTrackingProgress($occurrences);
 
             if (!empty($progress)) {
@@ -148,7 +148,6 @@ class Freterapido_Freterapido_Model_Tracking
      */
     protected function _setTrackingProgress($progress)
     {
-        $track = array_pop($progress);
         $track['progressdetail'] = $progress;
 
         $resource = Mage::getResourceModel('sales/order_shipment_track_collection')
