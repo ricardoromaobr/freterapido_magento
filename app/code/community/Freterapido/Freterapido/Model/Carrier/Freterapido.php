@@ -267,7 +267,7 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido extends Mage_Shipping_Mo
             'adapter' => 'Zend_Http_Client_Adapter_Curl',
             'curloptions' => array(
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_SSL_VERIFYPEER, false
+                CURLOPT_SSL_VERIFYPEER => false
             ),
         );
 
@@ -337,44 +337,45 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido extends Mage_Shipping_Mo
         foreach ($request->getAllItems() as $item) {
             $sku = $item->getProduct()->getSku();
 
-            // O mesmo produto pode ter item pai e item filho. Neste caso, no item pai não existe informações sobre as medidas e
-            // no item filho não possui informações como preço e quantidade no carrinho.
-            // Assim, Verifica se é item pai ou filho para pegar as informações necessárias de cada tipo e montar o volume.
-            // No entanto se o produto não possuir item filho, todas as informações são extraídas do item pai.
-            if (!$item->getParentItemId()) {
+            // Recupera os ids das categorias relacionadas ao produto
+            $categories_ids = $item->getProduct()->getCategoryIds();
+            $categories = array();
 
-                // Recupera os ids das categorias relacionadas ao produto
-                $categories_ids = $item->getProduct()->getCategoryIds();
-                $categories = array();
+            foreach ($categories_ids as $id) {
+                $_category = Mage::getModel('catalog/category')->load($id);
+                $_level = $_category->getData('level');
 
-                foreach ($categories_ids as $id) {
-                    $_category = Mage::getModel('catalog/category')->load($id);
-                    $_level = $_category->getData('level');
+                $_category_fr = $_category->getData('fr_category');
 
-                    $_category_fr = $_category->getData('fr_category');
-
-                    // Verifica se o Model de categoria não está vazio e se a categoria do FR foi definida para o produto
-                    if (!empty($_category) && !empty($_category_fr)) {
-                        $categories[$_level] = $_category->getData('fr_category');
-                    }
+                // Verifica se o Model de categoria não está vazio e se a categoria do FR foi definida para o produto
+                if (!empty($_category) && !empty($_category_fr)) {
+                    $categories[$_level] = $_category->getData('fr_category');
                 }
+            }
 
-                // Ordena para que a categoria com nível maior (mais específica) fique na primeira posição
-                krsort($categories);
+            // Ordena para que a categoria com nível maior (mais específica) fique na primeira posição
+            krsort($categories);
 
-                // Verifica se a categoria foi encontrada e inserida no array, remove as chaves e extrai o primeiro item do array
-                $type = is_array($categories) && !empty(array_values($categories)[0]) ?
-                    array_values($categories)[0] : $this->getConfigData('default_type');
+            // Verifica se a categoria foi encontrada e inserida no array, remove as chaves e extrai o primeiro item do array
+            $type = is_array($categories) && !empty(array_values($categories)[0]) ?
+                array_values($categories)[0] : $this->getConfigData('default_type');
 
-                $quantity = $item->getQty();
-                $weight = (float)$item->getWeight() * $quantity;
-                $value = (float)$item->getBasePrice() * $quantity;
+            $quantity = $item->getQty();
+            $weight = (float)$item->getWeight() * $quantity;
+            $value = (float)$item->getBasePrice() * $quantity;
 
-                $this->_volumes[$sku]['tipo'] = (int)$type;
-                $this->_volumes[$sku]['quantidade'] = (int)$quantity;
-                $this->_volumes[$sku]['peso'] = $this->_weightVerify($weight);
-                $this->_volumes[$sku]['valor'] = $value;
+            $this->_volumes[$sku]['tipo'] = (int)$type;
+            $this->_volumes[$sku]['quantidade'] = (int)$quantity;
+            $this->_volumes[$sku]['peso'] = $this->_weightVerify($weight);
+            $this->_volumes[$sku]['valor'] = $value;
 
+            /**
+             * O mesmo produto pode ter item pai e item filho. Neste caso, no item pai não existe informações sobre as medidas e
+             * no item filho não possui informações como preço e quantidade no carrinho.
+             * Assim, Verifica se é item pai ou filho para pegar as informações necessárias de cada tipo e montar o volume.
+             * No entanto se o produto não possuir item filho, todas as informações são extraídas do item pai.
+             */
+            if (!$item->getParentItemId()) {
                 // Soma ao valor total do carrinho
                 $this->_products_total_value += $value;
 
