@@ -335,6 +335,10 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido extends Mage_Shipping_Mo
     protected function _getVolumes(Mage_Shipping_Model_Rate_Request $request)
     {
         foreach ($request->getAllItems() as $item) {
+            if ($item->getProductType() == 'bundle') {
+                continue;
+            }
+
             $sku = $item->getProduct()->getSku();
 
             // Recupera os ids das categorias relacionadas ao produto
