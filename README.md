@@ -58,7 +58,7 @@ A Frete Rápido não se responsabiliza por eventualidades advindas deste módulo
 
 - **Habilitar:** Habilita ou desabilita o módulo conforme sua necessidade.
 - **Título:** Permite definir um título para a seção de resultados.
-- **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido.
+- **CNPJ:** CNPJ da sua empresa conforme registrado no Frete Rápido (apenas números, sem pontos e traço).
 - **Formato do Peso:** Formato do valor do peso registrado para cada produto (Quilos ou Gramas).
 - **Altura padrão (cm):** Define a altura padrão dos produtos que não tiverem altura informada.
 - **Largura padrão (cm):** Define a largura padrão dos produtos que não tiverem altura informada.
