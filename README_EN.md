@@ -60,7 +60,7 @@ Is needed setting up somethings on this module to get all usability with API of 
 
 - **Enable:** Choose if you would like enable or disable the module in your store.
 - **Title:** Allows to define a title over results section.
-- **CNPJ:** Company registration on Brazil. The same code registered in Frete Rápido.
+- **CNPJ:** Company registration on Brazil. The same code registered in Frete Rápido (numbers only).
 - **Weight format:** Choose the weight format used on your store (Kilogram ou grams).
 - **Default Height (cm):** Define default height for all products that haven't this measurement informed.
 - **Default Width (cm):** Define default width for all products that haven't this measurement informed.
