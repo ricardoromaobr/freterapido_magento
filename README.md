@@ -131,7 +131,7 @@ A Frete Rápido não se responsabiliza por eventualidades advindas deste módulo
 
 ### Observações gerais:
 1. Para obter cotações dos Correios é necessário configurar o seu contrato com os Correios no [Painel administrativo do Frete Rápido][2] > Empresa > Integração.
-2. Esse módulo atende cotações apenas para destinatários Pessoa Física.
+2. Esse módulo atende solicitações de coleta para destinatários Pessoa Física. Para atender Pessoas Jurídicas, o módulo pode ser adaptado por você de acordo com a [API da Frete Rápido][9].
 
 --------
 
