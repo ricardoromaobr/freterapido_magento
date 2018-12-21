@@ -241,16 +241,16 @@ class Freterapido_Freterapido_Model_Carrier_Freterapido extends Mage_Shipping_Mo
     {
         // Dados que serão enviados para a API do Frete Rápido
         $request_data = array(
-            'remetente' => $this->_sender,
-            'destinatario' => $this->_receiver,
-            'volumes' => $this->_volumes,
-            'tipo_frete' => $this->_freight_type,
-            'token' => $this->_token,
+            'remetente'         => $this->_sender,
+            'destinatario'      => $this->_receiver,
+            'volumes'           => $this->_volumes,
+            'tipo_frete'        => $this->_freight_type,
+            'token'             => $this->_token,
             'codigo_plataforma' => $this->_platform_code
         );
 
         if (!is_null($this->_quote_id)) {
-            $request_data['cotacao_plataforma'] = $this->_quote_id;
+            $request_data['cotacao_plataforma'] = (int)$this->_quote_id;
         }
 
         // Adiciona o filtro caso tenhas sido selecionado
